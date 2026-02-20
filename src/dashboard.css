@@ -1,49 +1,26 @@
 /* src/dashboard.css */
 
-/* Main background should be white */
-body, .bg-\[\#F8FAFC\] {
-  background-color: #ffffff !important;
+/* Main background should be a soft professional color */
+body {
+  background-color: #f8fafc;
 }
 
-/* Cards and menu tabs should be a professional color (slate-50) */
-.bg-white {
-  background-color: #ffffff !important;
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Remove all shadows */
-[class*="shadow"] {
-  box-shadow: none !important;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* Set all borders to #b6b6b6 */
-.border,
-.border-t,
-.border-b,
-.border-l,
-.border-r,
-.border-x,
-.border-y,
-[class*="border-"] {
-  border-color: #cfcfcf !important;
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
 }
 
-/* Keep transparent borders transparent (for loaders, etc.) */
-.border-t-transparent {
-  border-top-color: transparent !important;
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
-.border-b-transparent {
-  border-bottom-color: transparent !important;
-}
-.border-l-transparent {
-  border-left-color: transparent !important;
-}
-.border-r-transparent {
-  border-right-color: transparent !important;
-}
-.border-transparent {
-  border-color: transparent !important;
-}
-.border-none {
-  border-style: none !important;
-  border-width: 0 !important;
-}
+

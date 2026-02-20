@@ -132,10 +132,10 @@ export default function LoginPage() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="max-w-md w-full mx-auto lg:mx-0"
+          className="max-w-md w-full mx-auto"
         >
           <div className="flex items-center gap-3 mb-10">
-            <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center shadow-xl shadow-slate-900/10">
+            <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center">
               <DollarSign className="text-white" size={28} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Digitalsight Financials</h1>
@@ -170,7 +170,7 @@ export default function LoginPage() {
                   type="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
+                  className="block w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
                   placeholder="Enter your email address"
                   required
                   disabled={isLoading}
@@ -188,7 +188,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
+                  className="block w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
                   placeholder="••••••••"
                   required
                   disabled={isLoading}
@@ -211,7 +211,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading || !turnstileToken}
-              className="w-full bg-slate-900 text-white font-bold text-base py-4 rounded-none hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+              className="w-full bg-slate-900 text-white font-bold text-base py-4 rounded-none hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
