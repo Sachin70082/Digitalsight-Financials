@@ -24,7 +24,7 @@ body, .bg-\[\#F8FAFC\] {
 .border-x,
 .border-y,
 [class*="border-"] {
-  border-color: #b6b6b6 !important;
+  border-color: #cfcfcf !important;
 }
 
 /* Keep transparent borders transparent (for loaders, etc.) */
