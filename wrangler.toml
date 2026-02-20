@@ -1,0 +1,38 @@
+name = "digitalsight-financials"
+main = "worker/index.ts"
+compatibility_date = "2024-12-01"
+
+# Static assets (built frontend)
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+# Cloudflare D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "digitalsight-db"
+database_id = "00047ff4-8b43-4851-9494-87501feff7ae"
+# Optional (recommended) preview binding for `wrangler dev --remote`
+preview_database_id = "00047ff4-8b43-4851-9494-87501feff7ae"
+
+# Cloudflare R2 Storage
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "financials"
+# Required by Wrangler when using `wrangler dev --remote`
+# Ideally this should be a separate dev bucket.
+preview_bucket_name = "financials"
+
+# Environment variables (non-secret)
+[vars]
+JWT_SECRET = "your-secret-key-change-in-production"
+
+# Non-secret config (safe to commit)
+TURNSTILE_SITE_KEY = "0x4AAAAAACMuYChp5BSVe9nG"
+R2_PUBLIC_DOMAIN = "https://pub-798e0975721b49129b87ccda2a7a6bc0.r2.dev"
+R2_BUCKET_NAME = "financials"
+R2_ACCOUNT_ID = "b10d24f08c0674b682cefebd178a45cb"
+
+# Secrets (DO NOT commit):
+#   wrangler secret put R2_ACCESS_KEY_ID
+#   wrangler secret put R2_SECRET_ACCESS_KEY

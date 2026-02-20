@@ -1,0 +1,8 @@
+node_modules
+dist
+.wrangler
+.dev.vars
+.env
+.env.local
+.env.*.local
+royalty_app.db
