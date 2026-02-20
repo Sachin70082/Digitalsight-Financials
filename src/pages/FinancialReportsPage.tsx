@@ -285,14 +285,14 @@ export default function FinancialReportsPage() {
   }).reverse();
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 pb-12 animate-fade-in">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Financial Reports</h2>
-          <p className="text-slate-500 mt-1 text-sm font-medium">Manage uploads, approvals, and analytics.</p>
+          <h2 className="text-2xl font-medium text-[#202124] tracking-tight">Financial Reports</h2>
+          <p className="text-[#70757a] mt-1 text-sm">Manage uploads, approvals, and analytics.</p>
         </div>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-none hover:bg-slate-50 transition-all text-xs font-bold shadow-sm">
+        <div className="flex gap-3">
+          <button className="modern-button flex items-center gap-2 py-2">
             <Download size={16} />
             Export Data
           </button>
@@ -300,7 +300,7 @@ export default function FinancialReportsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar border-b border-slate-200">
+      <div className="flex overflow-x-auto pb-1 gap-6 no-scrollbar border-b border-[#dadce0]">
         {[
           { id: 'analytics', label: 'Analytics & Charts', icon: BarChart3 },
           { id: 'uploads', label: 'Report Entry', icon: FileSpreadsheet },
@@ -309,13 +309,13 @@ export default function FinancialReportsPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+            className={`flex items-center gap-2 px-1 py-4 text-sm font-medium transition-all whitespace-nowrap border-b-2 -mb-[2px] ${
               activeTab === tab.id 
-                ? 'border-slate-900 text-slate-900' 
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-[#1a73e8] text-[#1a73e8]' 
+                : 'border-transparent text-[#5f6368] hover:text-[#202124]'
             }`}
           >
-            <tab.icon size={16} />
+            <tab.icon size={18} />
             {tab.label}
           </button>
         ))}
@@ -325,50 +325,50 @@ export default function FinancialReportsPage() {
         {activeTab === 'analytics' && (
           <motion.div 
             key="analytics"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="bg-white p-6 rounded-none shadow-sm border border-slate-200"
+            exit={{ opacity: 0, y: -20 }}
+            className="bg-white p-8 rounded-lg border border-[#dadce0]"
           >
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-10">
               <div>
-                <h3 className="text-lg font-bold text-slate-900">Revenue vs Withdrawals</h3>
-                <p className="text-xs text-slate-400 font-medium">Monthly financial performance overview</p>
+                <h3 className="text-lg font-medium text-[#202124]">Revenue vs Withdrawals</h3>
+                <p className="text-[10px] text-[#70757a] font-medium uppercase tracking-wider mt-1">Monthly financial performance overview</p>
               </div>
-              <div className="flex gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-none bg-slate-900"></span>
-                  <span className="text-xs font-bold text-slate-600">Royalties</span>
+              <div className="flex gap-6">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#202124]"></span>
+                  <span className="text-[10px] font-medium text-[#5f6368] uppercase tracking-wider">Royalties</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-none bg-blue-500"></span>
-                  <span className="text-xs font-bold text-slate-600">Withdrawals</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#1a73e8]"></span>
+                  <span className="text-[10px] font-medium text-[#5f6368] uppercase tracking-wider">Withdrawals</span>
                 </div>
               </div>
             </div>
-            <div className="h-[400px] w-full">
+            <div className="h-[420px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f3f4" />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }} 
+                    tick={{ fill: '#70757a', fontSize: 10, fontWeight: 500 }} 
                     dy={10}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }}
+                    tick={{ fill: '#70757a', fontSize: 10, fontWeight: 500 }}
                     tickFormatter={(value) => `$${value/1000}k`}
                   />
                   <Tooltip 
-                    cursor={{ fill: '#f8fafc' }}
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+                    cursor={{ fill: '#f8f9fa' }}
+                    contentStyle={{ borderRadius: '8px', border: '1px solid #dadce0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', padding: '12px' }}
                   />
-                  <Bar dataKey="Royalties" fill="#0f172a" radius={[4, 4, 0, 0]} barSize={40} />
-                  <Bar dataKey="Withdrawals" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+                  <Bar dataKey="Royalties" fill="#202124" radius={[4, 4, 0, 0]} barSize={32} />
+                  <Bar dataKey="Withdrawals" fill="#1a73e8" radius={[4, 4, 0, 0]} barSize={32} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -383,18 +383,18 @@ export default function FinancialReportsPage() {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-6"
           >
-            <div className="bg-white p-8 rounded-none shadow-sm border border-slate-200">
-              <h3 className="text-lg font-bold text-slate-900 mb-6">New Royalty Report</h3>
+            <div className="bg-white p-8 rounded-lg border border-[#dadce0]">
+              <h3 className="text-lg font-medium text-[#202124] mb-6">New Royalty Report</h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Client Account</label>
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Client Account</label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
                     <select 
                       value={selectedClient}
                       onChange={(e) => setSelectedClient(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none appearance-none"
+                      className="modern-input pl-10 appearance-none"
                     >
                       <option value="">Select Label</option>
                       {labels.map(label => (
@@ -404,47 +404,47 @@ export default function FinancialReportsPage() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Report Period</label>
-                  <div className="flex gap-2">
-                    <div className="relative flex-1">
-                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <div className="space-y-2 sm:col-span-2 xl:col-span-1">
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Report Period</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={14} />
                       <input 
                         type="date" 
                         value={dateRange.from}
                         onChange={(e) => setDateRange({...dateRange, from: e.target.value})}
-                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                        className="modern-input pl-9 text-xs"
                       />
                     </div>
-                    <div className="relative flex-1">
-                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={14} />
                       <input 
                         type="date" 
                         value={dateRange.to}
                         onChange={(e) => setDateRange({...dateRange, to: e.target.value})}
-                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                        className="modern-input pl-9 text-xs"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Revenue</label>
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Total Revenue</label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
                     <input 
                       type="number" 
                       step="0.01"
                       value={totalRevenue}
                       onChange={(e) => setTotalRevenue(e.target.value)}
                       placeholder="0.00"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                      className="modern-input pl-10"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Data File</label>
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Data File</label>
                   <div className="relative">
                     <input 
                       type="file" 
@@ -456,16 +456,16 @@ export default function FinancialReportsPage() {
                     />
                     <label 
                       htmlFor="report-upload"
-                      className={`w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed rounded-none cursor-pointer transition-all ${
+                      className={`w-full flex items-center justify-center gap-2 py-2.5 border border-dashed rounded-lg cursor-pointer transition-all text-sm font-medium ${
                         excelFile 
-                          ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
-                          : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300'
+                          ? 'bg-[#e6f4ea] border-[#ceead6] text-[#1e8e3e]' 
+                          : 'bg-[#f8f9fa] border-[#dadce0] text-[#5f6368] hover:bg-[#f1f3f4]'
                       }`}
                     >
                       {excelFile ? (
-                        <><Check size={16} /> {excelFile.name}</>
+                        <><Check size={16} /> <span className="truncate max-w-[100px]">{excelFile.name}</span></>
                       ) : (
-                        <><Upload size={16} /> Choose Excel File</>
+                        <><Upload size={16} /> Choose File</>
                       )}
                     </label>
                   </div>
@@ -473,31 +473,31 @@ export default function FinancialReportsPage() {
               </div>
 
               {excelData.length > 0 && (
-                <div className="border border-slate-200 rounded-none overflow-hidden mb-6">
-                  <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-500 uppercase">Preview ({excelData.length} rows)</span>
+                <div className="google-table-container mb-6">
+                  <div className="bg-[#f8f9fa] px-4 py-3 border-b border-[#dadce0] flex justify-between items-center">
+                    <span className="text-[10px] font-medium text-[#70757a] uppercase tracking-wider">Preview ({excelData.length} rows)</span>
                   </div>
                   <div className="overflow-x-auto max-h-[300px]">
-                    <table className="w-full text-left text-xs">
-                      <thead className="bg-white text-slate-400 sticky top-0 shadow-sm">
+                    <table className="google-table">
+                      <thead>
                         <tr>
                           {Object.keys(excelData[0] || {}).map((key) => (
-                            <th key={key} className="px-4 py-2 font-bold uppercase tracking-wider text-[9px]">{key}</th>
+                            <th key={key}>{key}</th>
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-50">
+                      <tbody>
                         {excelData.slice(0, 10).map((row, i) => (
-                          <tr key={i} className="hover:bg-slate-50/50">
+                          <tr key={i}>
                             {Object.values(row).map((val: any, j) => (
-                              <td key={j} className="px-4 py-2 text-slate-600 font-medium">{String(val)}</td>
+                              <td key={j} className="text-xs">{String(val)}</td>
                             ))}
                           </tr>
                         ))}
                       </tbody>
                     </table>
                     {excelData.length > 10 && (
-                      <div className="p-2 text-center text-xs text-slate-400 italic bg-slate-50 border-t border-slate-100">
+                      <div className="p-2 text-center text-[10px] font-medium text-[#70757a] uppercase tracking-wider bg-[#f8f9fa] border-t border-[#dadce0]">
                         ...and {excelData.length - 10} more rows
                       </div>
                     )}
@@ -505,51 +505,53 @@ export default function FinancialReportsPage() {
                 </div>
               )}
 
-              <div className="flex justify-end pt-4 border-t border-slate-100">
+              <div className="flex justify-end pt-6 border-t border-[#dadce0]">
                 <button 
                   onClick={processReportUpload}
                   disabled={isUploading || !excelFile}
-                  className="bg-slate-900 text-white px-6 py-3 rounded-none font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="primary-button flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />}
+                  {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
                   Submit Report
                 </button>
               </div>
             </div>
 
             {/* Report History Table */}
-            <div className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-50 flex justify-between items-center">
-                <h3 className="text-lg font-bold text-slate-900">Report History</h3>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{allReports.length} Total Reports</span>
+            <div className="google-table-container">
+              <div className="p-6 border-b border-[#f1f3f4] bg-[#f8f9fa] flex justify-between items-center">
+                <div>
+                  <h3 className="text-base font-medium text-[#202124]">Report History</h3>
+                  <p className="text-xs text-[#70757a] mt-0.5">Manage previously uploaded statements</p>
+                </div>
+                <span className="text-[10px] font-medium text-[#5f6368] bg-white px-3 py-1 rounded border border-[#dadce0] uppercase tracking-wider">{allReports.length} Total Reports</span>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 text-slate-400">
+                <table className="google-table">
+                  <thead>
                     <tr>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Client</th>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Period</th>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Revenue</th>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">File Name</th>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Uploaded At</th>
-                      <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px] text-right">Actions</th>
+                      <th>Client</th>
+                      <th>Period</th>
+                      <th>Revenue</th>
+                      <th>File Name</th>
+                      <th>Uploaded At</th>
+                      <th className="text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50">
-                    {allReports.map((report: any) => {
-                      // Find the label to get the share percentage for this report
+                  <tbody>
+                    {allReports.map((report: any, idx: number) => {
                       const label = labels.find(l => String(l.owner_id) === String(report.user_id));
                       const share = label?.revenue_share ?? 0;
                       const formatted = formatReportRow(report, share);
                       
                       return (
-                        <tr key={report.id} className="hover:bg-slate-50/50 transition-colors">
-                          <td className="px-6 py-4">
+                        <tr key={report.id}>
+                          <td>
                             {editingReportId === report.id ? (
                               <select 
                                 value={editFormData.user_id}
                                 onChange={(e) => setEditFormData({...editFormData, user_id: e.target.value})}
-                                className="w-full p-1 text-xs border rounded-none"
+                                className="modern-input py-1 text-xs"
                               >
                                 {labels.map(label => (
                                   <option key={label.id} value={label.owner_id}>{label.name}</option>
@@ -557,71 +559,71 @@ export default function FinancialReportsPage() {
                               </select>
                             ) : (
                               <>
-                                <div className="font-bold text-slate-900">{report.client_name}</div>
-                                <div className="text-[10px] text-slate-400">{report.client_email}</div>
+                                <div className="font-medium text-[#202124] text-sm">{report.client_name}</div>
+                                <div className="text-[10px] text-[#70757a]">{report.client_email}</div>
                               </>
                             )}
                           </td>
-                          <td className="px-6 py-4 text-slate-600 font-medium">
+                          <td className="text-[#5f6368] font-medium text-xs">
                             {editingReportId === report.id ? (
-                              <div className="flex gap-1">
+                              <div className="flex gap-2">
                                 <input 
                                   type="date" 
                                   value={editFormData.start_date}
                                   onChange={(e) => setEditFormData({...editFormData, start_date: e.target.value})}
-                                  className="w-full p-1 text-[10px] border rounded-none"
+                                  className="modern-input py-1 text-[10px]"
                                 />
                                 <input 
                                   type="date" 
                                   value={editFormData.end_date}
                                   onChange={(e) => setEditFormData({...editFormData, end_date: e.target.value})}
-                                  className="w-full p-1 text-[10px] border rounded-none"
+                                  className="modern-input py-1 text-[10px]"
                                 />
                               </div>
                             ) : (
                               `${formatDate(report.start_date)} - ${formatDate(report.end_date)}`
                             )}
                           </td>
-                          <td className="px-6 py-4">
+                          <td>
                             {editingReportId === report.id ? (
                               <input 
                                 type="number" 
                                 step="0.01"
                                 value={editFormData.total_revenue}
                                 onChange={(e) => setEditFormData({...editFormData, total_revenue: e.target.value})}
-                                className="w-full p-1 text-xs border rounded-none"
+                                className="modern-input py-1 text-xs"
                               />
                             ) : (
                               <div className="flex flex-col">
-                                <span className="font-bold text-slate-900">{formatCurrency(formatted.gross)}</span>
-                                <span className="text-[9px] text-slate-400 uppercase">Net: {formatCurrency(formatted.net)} ({share}%)</span>
+                                <span className="font-medium text-[#202124] text-sm">{formatCurrency(formatted.gross)}</span>
+                                <span className="text-[9px] text-[#70757a] font-medium uppercase">Net: {formatCurrency(formatted.net)} ({share}%)</span>
                               </div>
                             )}
                           </td>
-                          <td className="px-6 py-4">
+                          <td>
                             <button 
                               onClick={() => handleDownloadReport(report.id, report.filename)}
-                              className="flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 hover:underline transition-all"
+                              className="flex items-center gap-2 text-[#1a73e8] font-medium text-xs hover:underline transition-all"
                             >
-                              <FileSpreadsheet size={14} />
-                              {report.filename}
+                              <FileSpreadsheet size={16} />
+                              <span className="truncate max-w-[150px]">{report.filename}</span>
                             </button>
                           </td>
-                          <td className="px-6 py-4 text-slate-400">{formatDate(report.created_at)}</td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="text-[#70757a] text-xs">{formatDate(report.created_at)}</td>
+                          <td className="text-right">
                             <div className="flex justify-end gap-2">
                               {editingReportId === report.id ? (
                                 <>
                                   <button 
                                     onClick={handleSaveEdit}
-                                    className="p-2 text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-none transition-all"
+                                    className="p-1.5 text-[#1e8e3e] hover:bg-[#e6f4ea] rounded transition-all"
                                     title="Save Changes"
                                   >
                                     <Save size={16} />
                                   </button>
                                   <button 
                                     onClick={() => setEditingReportId(null)}
-                                    className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-none transition-all"
+                                    className="p-1.5 text-[#70757a] hover:bg-[#f1f3f4] rounded transition-all"
                                     title="Cancel"
                                   >
                                     <X size={16} />
@@ -631,14 +633,14 @@ export default function FinancialReportsPage() {
                                 <>
                                   <button 
                                     onClick={() => handleEditReport(report)}
-                                    className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-none transition-all"
+                                    className="p-1.5 text-[#1a73e8] hover:bg-[#e8f0fe] rounded transition-all"
                                     title="Edit Report"
                                   >
                                     <Edit2 size={16} />
                                   </button>
                                   <button 
                                     onClick={() => handleDeleteReport(report.id)}
-                                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-none transition-all"
+                                    className="p-1.5 text-[#d93025] hover:bg-[#fce8e6] rounded transition-all"
                                     title="Delete Report"
                                   >
                                     <X size={16} />
@@ -652,8 +654,11 @@ export default function FinancialReportsPage() {
                     })}
                     {allReports.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="px-6 py-12 text-center text-slate-400 italic">
-                          No reports have been added yet.
+                        <td colSpan={6} className="px-6 py-16 text-center text-[#dadce0] italic">
+                          <div className="flex flex-col items-center gap-3">
+                            <FileSpreadsheet size={32} className="opacity-20" />
+                            <p className="text-xs font-medium uppercase tracking-widest">No reports found</p>
+                          </div>
                         </td>
                       </tr>
                     )}
@@ -667,94 +672,109 @@ export default function FinancialReportsPage() {
         {activeTab === 'approvals' && (
           <motion.div 
             key="approvals"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
+            exit={{ opacity: 0, y: -20 }}
+            className="google-table-container overflow-hidden"
           >
-            <div className="p-6 border-b border-slate-50 flex justify-between items-center">
-              <h3 className="text-lg font-bold text-slate-900">Pending Approvals</h3>
-              <div className="flex gap-2">
-                <button className="p-2 hover:bg-slate-50 rounded-none text-slate-400 hover:text-slate-900 transition-colors">
+            <div className="p-6 border-b border-[#f1f3f4] bg-[#f8f9fa] flex justify-between items-center">
+              <div>
+                <h3 className="text-base font-medium text-[#202124]">Pending Approvals</h3>
+                <p className="text-xs text-[#70757a] mt-0.5">Review and process withdrawal requests</p>
+              </div>
+              <div className="flex gap-3">
+                <button className="modern-button p-2">
                   <Filter size={18} />
                 </button>
-                <button className="p-2 hover:bg-slate-50 rounded-none text-slate-400 hover:text-slate-900 transition-colors">
+                <button className="modern-button p-2">
                   <Search size={18} />
                 </button>
               </div>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 text-slate-400">
+              <table className="google-table">
+                <thead>
                   <tr>
-                    <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Client</th>
-                    <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Date</th>
-                    <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Amount</th>
-                    <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Status</th>
-                    <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px] text-right">Actions</th>
+                    <th>Client</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th className="text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {withdrawals.map((item: any) => (
-                    <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-6 py-4">
+                <tbody>
+                  {withdrawals.map((item: any, idx: number) => (
+                    <motion.tr 
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 * idx }}
+                      key={item.id} 
+                    >
+                      <td>
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-none bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-[10px]">
+                          <div className="w-9 h-9 rounded bg-[#f1f3f4] flex items-center justify-center text-[#5f6368] font-medium text-xs border border-[#dadce0]">
                             {item.user_name?.charAt(0) || '?'}
                           </div>
                           <div>
-                            <p className="font-bold text-slate-900">{item.user_name}</p>
-                            <p className="text-[9px] text-slate-400 uppercase">ID: #{item.user_id}</p>
+                            <p className="font-medium text-[#202124] text-sm">{item.user_name}</p>
+                            <p className="text-[10px] text-[#70757a]">ID: #{item.user_id}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-slate-500 font-medium">{formatDate(item.request_date)}</td>
-                      <td className="px-6 py-4 font-extrabold text-slate-900">{formatCurrency(item.amount)}</td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wide ${
-                          item.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
-                          item.status === 'rejected' ? 'bg-red-50 text-red-600 border border-red-100' :
-                          'bg-amber-50 text-amber-600 border border-amber-100'
+                      <td className="text-[#5f6368] text-xs">{formatDate(item.request_date)}</td>
+                      <td className="font-medium text-[#202124] text-base">{formatCurrency(item.amount)}</td>
+                      <td>
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider border ${
+                          item.status === 'approved' ? 'bg-[#e6f4ea] text-[#1e8e3e] border-[#ceead6]' :
+                          item.status === 'rejected' ? 'bg-[#fce8e6] text-[#d93025] border-[#f9d2ce]' :
+                          'bg-[#fef7e0] text-[#ea8600] border-[#feefc3]'
                         }`}>
-                          <span className={`w-1.5 h-1.5 rounded-none ${
-                            item.status === 'approved' ? 'bg-emerald-500' :
-                            item.status === 'rejected' ? 'bg-red-500' :
-                            'bg-amber-500'
-                          }`}></span>
                           {item.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="text-right">
                         <div className="flex justify-end gap-2">
                           {item.status === 'pending' ? (
                             <>
                               <button 
                                 onClick={() => handleStatusUpdate(item.id, 'approved')}
-                                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-none hover:bg-emerald-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
+                                className="modern-button py-1 text-[10px] text-[#1e8e3e] hover:bg-[#e6f4ea] border-[#ceead6]"
                               >
-                                <Check size={12} /> Approve
+                                Approve
                               </button>
                               <button 
                                 onClick={() => handleStatusUpdate(item.id, 'rejected')}
-                                className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-none hover:bg-red-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
+                                className="modern-button py-1 text-[10px] text-[#d93025] hover:bg-[#fce8e6] border-[#f9d2ce]"
                               >
-                                <X size={12} /> Reject
+                                Reject
                               </button>
                             </>
                           ) : (
-                            <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest self-center mr-2">Completed</span>
+                            <span className="text-[#bdc1c6] text-[10px] font-medium uppercase tracking-wider mr-2">Processed</span>
                           )}
                           <button 
                             onClick={() => handleDeleteWithdrawal(item.id)}
-                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-none transition-all"
+                            className="p-1.5 text-[#70757a] hover:text-[#d93025] hover:bg-[#fce8e6] rounded transition-all"
                             title="Delete Request"
                           >
-                            <X size={14} />
+                            <X size={16} />
                           </button>
                         </div>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
+                  {withdrawals.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-20 text-center">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="w-12 h-12 bg-[#f8f9fa] rounded-full flex items-center justify-center">
+                            <Wallet size={24} className="opacity-20" />
+                          </div>
+                          <p className="text-xs font-medium text-[#70757a] uppercase tracking-widest">No pending requests</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

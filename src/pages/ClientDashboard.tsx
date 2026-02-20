@@ -127,142 +127,97 @@ export default function ClientDashboard() {
   );
 
   return (
-    <main className="space-y-6 pb-12" aria-label="Client Dashboard">
+    <main className="space-y-8 pb-12 animate-fade-in" aria-label="Client Dashboard">
       {/* Header Section */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-brand-600 font-bold text-[10px] uppercase tracking-widest mb-1"
-          >
-            <TrendingUp size={14} aria-hidden="true" />
-            <span>Financial Performance</span>
-          </motion.div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Dashboard</h1>
-          <p className="text-slate-500 mt-1 text-sm font-medium">
-            Welcome back, <span className="text-slate-900 font-bold">{user?.name}</span>. 
-            {stats?.labelName && <span className="ml-2 text-brand-600 bg-brand-50 px-2 py-0.5 rounded-none text-[10px] font-bold uppercase tracking-tight">{stats.labelName}</span>}
+          <h1 className="text-2xl font-medium text-[#202124] tracking-tight">Dashboard</h1>
+          <p className="text-[#70757a] mt-1 text-sm">
+            Welcome back, <span className="text-[#202124] font-medium">{user?.name}</span>. 
+            {stats?.labelName && <span className="ml-3 text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider border border-[#d2e3fc]">{stats.labelName}</span>}
           </p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-2" role="search" aria-label="Filter data">
-          <div className="flex items-center bg-white border border-slate-200 rounded-none p-1 shadow-sm">
-            <div className="flex items-center px-2 gap-2">
-              <Calendar size={14} className="text-slate-400" aria-hidden="true" />
-              <label htmlFor="start-date" className="sr-only">Start Date</label>
+        <div className="flex flex-wrap items-center gap-3" role="search" aria-label="Filter data">
+          <div className="ga-search-bar">
+            <div className="flex items-center px-1 gap-2">
+              <Calendar size={14} className="text-[#5f6368]" aria-hidden="true" />
               <input 
                 id="start-date"
                 type="date" 
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="text-[11px] font-bold text-slate-600 border-none focus:ring-2 focus:ring-brand-500 rounded-none p-1 bg-transparent" 
-                aria-label="Start Date"
+                className="text-[11px] font-medium text-[#3c4043] border-none focus:ring-0 p-0 bg-transparent" 
               />
             </div>
-            <div className="w-[1px] h-3 bg-slate-200 mx-1" aria-hidden="true"></div>
-            <div className="flex items-center px-2 gap-2">
-              <label htmlFor="end-date" className="sr-only">End Date</label>
+            <div className="w-[1px] h-4 bg-[#dadce0] mx-2"></div>
+            <div className="flex items-center px-1 gap-2">
               <input 
                 id="end-date"
                 type="date" 
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="text-[11px] font-bold text-slate-600 border-none focus:ring-2 focus:ring-brand-500 rounded-none p-1 bg-transparent" 
-                aria-label="End Date"
+                className="text-[11px] font-medium text-[#3c4043] border-none focus:ring-0 p-0 bg-transparent" 
               />
             </div>
           </div>
           <button 
             onClick={exportData}
-            className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-none hover:bg-slate-800 focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all text-xs font-bold shadow-lg shadow-slate-900/10 modern-button"
-            aria-label="Export data to Excel"
+            className="modern-button flex items-center gap-2 py-2"
           >
-            <Download size={16} aria-hidden="true" />
+            <Download size={16} />
             <span>Export</span>
           </button>
         </div>
       </header>
 
-      {/* Stats Grid */}
+      {/* Stats Grid - Flat Cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" aria-label="Key Statistics">
-        <motion.div 
-          whileHover={{ y: -2 }}
-          className="bg-slate-900 p-6 rounded-none shadow-lg shadow-slate-900/10 relative overflow-hidden group"
-        >
-          <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/5 rounded-none blur-2xl group-hover:bg-white/10 transition-all duration-500" aria-hidden="true"></div>
-          <div className="relative z-10">
-            <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-none flex items-center justify-center mb-4" aria-hidden="true">
-              <Wallet className="text-white" size={20} />
+        {[
+          { label: 'Available Balance', value: formatCurrency(stats.balance, user?.currency), icon: Wallet, color: 'text-[#1a73e8]', bg: 'bg-[#e8f0fe]' },
+          { label: 'Gross Revenue', value: formatCurrency(stats.totalGross, user?.currency), icon: DollarSign, color: 'text-[#1a73e8]', bg: 'bg-[#e8f0fe]' },
+          { label: `Your Share (${user?.revenueShare ?? stats.sharePercent}%)`, value: formatCurrency(stats.totalNet, user?.currency), icon: TrendingUp, color: 'text-[#1e8e3e]', bg: 'bg-[#e6f4ea]' },
+          { label: 'Deductions', value: formatCurrency(stats.totalDeductions, user?.currency), icon: ArrowDown, color: 'text-[#d93025]', bg: 'bg-[#fce8e6]' }
+        ].map((item, i) => (
+          <div key={i} className="bg-white p-6 rounded-lg border border-[#dadce0] flex flex-col">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider">{item.label}</span>
+              <div className={`w-8 h-8 ${item.bg} ${item.color} rounded flex items-center justify-center`}>
+                <item.icon size={16} />
+              </div>
             </div>
-            <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Available Balance</h2>
-            <p className="text-3xl font-extrabold text-white tracking-tight">{formatCurrency(stats.balance, user?.currency)}</p>
+            <p className="text-2xl font-medium text-[#202124] tracking-tight">{item.value}</p>
           </div>
-        </motion.div>
-
-        <motion.div 
-          whileHover={{ y: -2 }}
-          className="bg-white p-6 rounded-none shadow-sm border border-slate-200 relative overflow-hidden group"
-        >
-          <div className="w-10 h-10 bg-blue-50 rounded-none flex items-center justify-center mb-4" aria-hidden="true">
-            <DollarSign className="text-blue-600" size={20} />
-          </div>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Gross Revenue</h2>
-          <p className="text-2xl font-extrabold text-slate-900 tracking-tight">{formatCurrency(stats.totalGross, user?.currency)}</p>
-        </motion.div>
-
-        <motion.div 
-          whileHover={{ y: -2 }}
-          className="bg-white p-6 rounded-none shadow-sm border border-slate-200 relative overflow-hidden group"
-        >
-          <div className="w-10 h-10 bg-emerald-50 rounded-none flex items-center justify-center mb-4" aria-hidden="true">
-            <TrendingUp className="text-emerald-600" size={20} />
-          </div>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Your Share ({user?.revenueShare ?? stats.sharePercent}%)</h2>
-          <p className="text-2xl font-extrabold text-slate-900 tracking-tight">{formatCurrency(stats.totalNet, user?.currency)}</p>
-        </motion.div>
-
-        <motion.div 
-          whileHover={{ y: -2 }}
-          className="bg-white p-6 rounded-none shadow-sm border border-slate-200 relative overflow-hidden group"
-        >
-          <div className="w-10 h-10 bg-red-50 rounded-none flex items-center justify-center mb-4" aria-hidden="true">
-            <ArrowDown className="text-red-600" size={20} />
-          </div>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Deductions</h2>
-          <p className="text-2xl font-extrabold text-slate-900 tracking-tight">{formatCurrency(stats.totalDeductions, user?.currency)}</p>
-        </motion.div>
+        ))}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Chart Section */}
-        <section className="lg:col-span-2 bg-white p-6 rounded-none shadow-sm border border-slate-200" aria-label="Revenue Chart">
-          <header className="flex items-center justify-between mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Chart Section - Flat */}
+        <section className="lg:col-span-2 bg-white p-8 rounded-lg border border-[#dadce0]" aria-label="Revenue Chart">
+          <header className="flex items-center justify-between mb-10">
             <div>
-              <h2 className="text-sm text-slate-500 font-medium">Revenue of recent month</h2>
-              <p className="mt-1 text-3xl font-bold text-slate-900 tracking-tight">
+              <h2 className="text-xs text-[#70757a] font-medium uppercase tracking-wider mb-1">Revenue Overview</h2>
+              <p className="text-3xl font-medium text-[#202124] tracking-tight">
                 {formatCurrency(currentRevenueValue, user?.currency)}
               </p>
             </div>
-            <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-none border border-slate-100" role="group" aria-label="Chart View Toggle">
+            <div className="flex items-center gap-1 bg-[#f1f3f4] p-1 rounded" role="group">
               <button 
                 onClick={() => setViewType('monthly')}
-                className={`px-3 py-1 text-[10px] font-bold rounded-none transition-all focus:ring-2 focus:ring-brand-500 ${viewType === 'monthly' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}
-                aria-pressed={viewType === 'monthly'}
+                className={`px-4 py-1.5 text-[10px] font-medium rounded transition-all ${viewType === 'monthly' ? 'bg-white shadow-sm text-[#1a73e8]' : 'text-[#5f6368] hover:text-[#202124]'}`}
               >
                 Monthly
               </button>
               <button 
                 onClick={() => setViewType('yearly')}
-                className={`px-3 py-1 text-[10px] font-bold rounded-none transition-all focus:ring-2 focus:ring-brand-500 ${viewType === 'yearly' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}
-                aria-pressed={viewType === 'yearly'}
+                className={`px-4 py-1.5 text-[10px] font-medium rounded transition-all ${viewType === 'yearly' ? 'bg-white shadow-sm text-[#1a73e8]' : 'text-[#5f6368] hover:text-[#202124]'}`}
               >
                 Yearly
               </button>
             </div>
           </header>
           
-          <div className="h-[300px] w-full" aria-hidden="true">
+          <div className="h-[320px] w-full">
             {chartData.length > 0 && chartData.some(d => d.revenue > 0) ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart 
@@ -277,136 +232,131 @@ export default function ClientDashboard() {
                 >
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#1a73e8" stopOpacity={0.1}/>
+                      <stop offset="95%" stopColor="#1a73e8" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f3f4" />
                   <XAxis 
                     dataKey="date" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} 
+                    tick={{fill: '#70757a', fontSize: 10}} 
                     dy={10} 
                     interval="preserveStartEnd"
                   />
-                  <YAxis 
-                    hide={true}
-                  />
+                  <YAxis hide={true} />
                   <Tooltip 
                     contentStyle={{ 
-                      borderRadius: '12px', 
-                      border: 'none', 
-                      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-                      padding: '8px 12px',
-                      backgroundColor: '#0f172a',
-                      color: '#fff'
+                      borderRadius: '8px', 
+                      border: '1px solid #dadce0', 
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                      padding: '12px',
+                      backgroundColor: '#fff',
+                      color: '#3c4043'
                     }}
-                    itemStyle={{ fontWeight: 800, color: '#fff', fontSize: '12px' }}
-                    labelStyle={{ fontWeight: 700, color: '#94a3b8', marginBottom: '2px', fontSize: '10px' }}
+                    itemStyle={{ fontWeight: 500, color: '#1a73e8', fontSize: '13px' }}
+                    labelStyle={{ fontWeight: 500, color: '#70757a', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase' }}
                     formatter={(value: any) => [formatCurrency(value, user?.currency), 'Revenue']}
                   />
                   <Area 
                     type="monotone" 
                     dataKey="revenue" 
-                    stroke="#6366f1" 
-                    strokeWidth={3} 
+                    stroke="#1a73e8" 
+                    strokeWidth={2} 
                     fillOpacity={1} 
                     fill="url(#colorRevenue)" 
-                    animationDuration={1000}
+                    animationDuration={500}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-slate-300 gap-3">
-                <PieChart size={48} className="opacity-20" />
-                <p className="text-xs font-bold uppercase tracking-widest">No revenue data available</p>
+              <div className="h-full flex flex-col items-center justify-center text-[#dadce0] gap-4">
+                <PieChart size={32} className="opacity-20" />
+                <p className="text-xs font-medium uppercase tracking-widest">No revenue data available</p>
               </div>
             )}
           </div>
         </section>
 
-        {/* Side Analytics */}
-        <aside className="flex flex-col gap-6" aria-label="Additional Analytics">
-          {/* Revenue Share Pie Chart */}
-          <section className="bg-white p-6 rounded-none shadow-sm border border-slate-200" aria-label="Share Distribution">
-            <header className="flex items-center gap-2 mb-6">
-              <PieChart size={16} className="text-slate-400" aria-hidden="true" />
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Share Distribution</h2>
+        {/* Side Analytics - Flat */}
+        <aside className="flex flex-col gap-8">
+          <section className="bg-white p-8 rounded-lg border border-[#dadce0]" aria-label="Share Distribution">
+            <header className="flex items-center gap-2 mb-8">
+              <PieChart size={16} className="text-[#5f6368]" />
+              <h2 className="text-xs font-medium text-[#202124] uppercase tracking-wider">Share Distribution</h2>
             </header>
-            <div className="h-[200px] w-full relative" aria-hidden="true">
+            <div className="h-[200px] w-full relative">
               <ResponsiveContainer width="100%" height="100%">
                 <RePieChart>
                   <Pie
                     data={pieData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
+                    innerRadius={65}
+                    outerRadius={85}
+                    paddingAngle={4}
                     dataKey="value"
+                    stroke="#fff"
+                    strokeWidth={2}
                   >
                     {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={index === 0 ? '#1a73e8' : '#d93025'} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value: any) => formatCurrency(value, user?.currency)} />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '4px', border: '1px solid #dadce0', boxShadow: 'none' }}
+                    formatter={(value: any) => formatCurrency(value, user?.currency)} 
+                  />
                 </RePieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-xl font-extrabold text-slate-900">{user?.revenueShare ?? stats.sharePercent}%</span>
-                <span className="text-[8px] font-bold text-slate-400 uppercase">Your Share</span>
+                <span className="text-2xl font-medium text-[#202124]">{user?.revenueShare ?? stats.sharePercent}%</span>
+                <span className="text-[9px] font-medium text-[#70757a] uppercase">Your Share</span>
               </div>
             </div>
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center justify-between text-[10px] font-bold uppercase">
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center justify-between p-2 rounded bg-[#f8f9fa] border border-[#f1f3f4]">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-none bg-indigo-500" aria-hidden="true"></span>
-                  <span className="text-slate-500">Net Earnings</span>
+                  <span className="w-2 h-2 rounded-full bg-[#1a73e8]"></span>
+                  <span className="text-[10px] font-medium text-[#5f6368] uppercase">Net Earnings</span>
                 </div>
-                <span className="text-slate-900">{formatCurrency(stats.totalNet, user?.currency)}</span>
+                <span className="text-xs font-medium text-[#202124]">{formatCurrency(stats.totalNet, user?.currency)}</span>
               </div>
-              <div className="flex items-center justify-between text-[10px] font-bold uppercase">
+              <div className="flex items-center justify-between p-2 rounded bg-[#f8f9fa] border border-[#f1f3f4]">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-none bg-red-500" aria-hidden="true"></span>
-                  <span className="text-slate-500">Label Cut</span>
+                  <span className="w-2 h-2 rounded-full bg-[#d93025]"></span>
+                  <span className="text-[10px] font-medium text-[#5f6368] uppercase">Label Cut</span>
                 </div>
-                <span className="text-slate-900">{formatCurrency(stats.totalDeductions, user?.currency)}</span>
+                <span className="text-xs font-medium text-[#202124]">{formatCurrency(stats.totalDeductions, user?.currency)}</span>
               </div>
             </div>
           </section>
 
-          {/* Recent Activity */}
-          <section className="bg-white rounded-none shadow-sm border border-slate-200 flex flex-col flex-1" aria-label="Recent Activity">
-            <header className="p-6 border-b border-slate-50">
-              <h2 className="text-lg font-extrabold text-slate-900">Recent Activity</h2>
-              <p className="text-xs text-slate-400 font-medium">Latest royalty deposits</p>
+          <section className="bg-white rounded-lg border border-[#dadce0] flex flex-col flex-1 overflow-hidden">
+            <header className="p-6 border-b border-[#f1f3f4] bg-[#f8f9fa]">
+              <h2 className="text-sm font-medium text-[#202124] uppercase tracking-wider">Recent Activity</h2>
             </header>
-            <div className="flex-1 overflow-y-auto p-2 space-y-1 max-h-[250px]">
+            <div className="flex-1 overflow-y-auto p-2 space-y-0.5 max-h-[280px]">
               {filteredRoyalties.length > 0 ? filteredRoyalties.slice(0, 5).map((item: any) => (
-                <motion.article 
-                  key={item.id} 
-                  className="flex items-center justify-between p-3 rounded-none hover:bg-slate-50 transition-all group"
-                >
+                <div key={item.id} className="flex items-center justify-between p-3 rounded hover:bg-[#f1f3f4] transition-all group">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-slate-100 rounded-none flex items-center justify-center text-slate-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors" aria-hidden="true">
-                      <Activity size={18} />
+                    <div className="w-8 h-8 bg-[#f1f3f4] rounded flex items-center justify-center text-[#5f6368] group-hover:bg-white transition-colors">
+                      <Activity size={16} />
                     </div>
                     <div>
-                      <h3 className="text-xs font-bold text-slate-900">{item.source}</h3>
-                      <time dateTime={item.date} className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">{formatDate(item.date)}</time>
+                      <h3 className="text-xs font-medium text-[#202124]">{item.source}</h3>
+                      <time className="text-[10px] text-[#70757a]">{formatDate(item.date)}</time>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs font-extrabold text-brand-600" aria-label={`Amount: ${formatCurrency(item.amount, user?.currency)}`}>
-                      +{formatCurrency(item.amount, user?.currency)}
-                    </p>
-                  </div>
-                </motion.article>
+                  <p className="text-xs font-medium text-[#1e8e3e]">
+                    +{formatCurrency(item.amount, user?.currency)}
+                  </p>
+                </div>
               )) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-300 gap-2 py-8">
-                  <Activity size={24} className="opacity-20" aria-hidden="true" />
-                  <p className="text-[10px] font-bold uppercase tracking-widest">No recent activity</p>
+                <div className="h-full flex flex-col items-center justify-center text-[#dadce0] gap-3 py-10">
+                  <Activity size={24} className="opacity-20" />
+                  <p className="text-[10px] font-medium uppercase tracking-widest">No activity</p>
                 </div>
               )}
             </div>

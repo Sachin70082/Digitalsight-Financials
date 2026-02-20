@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Upload, CheckCircle, FileUp, AlertCircle, Trash2, Database } from 'lucide-react';
+import { Upload, CheckCircle, FileUp, AlertCircle, Trash2, Database, User, Calendar, DollarSign } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -95,23 +95,23 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Data Ingestion</h2>
-          <p className="text-slate-500 mt-1 text-sm font-medium">Upload royalty records manually or via bulk Excel files.</p>
+          <h2 className="text-2xl font-medium text-[#202124] tracking-tight">Data Ingestion</h2>
+          <p className="text-[#70757a] mt-1 text-sm">Upload royalty records manually or via bulk Excel files.</p>
         </div>
         
-        <div className="flex bg-white p-1 rounded-none border border-slate-200 shadow-sm">
+        <div className="flex bg-[#f1f3f4] p-1 rounded border border-transparent">
           <button 
             onClick={() => setIsBulk(false)}
-            className={`px-4 py-1.5 rounded-none text-xs font-bold transition-all ${!isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`px-4 py-1.5 rounded text-xs font-medium transition-all ${!isBulk ? 'bg-white text-[#1a73e8] shadow-sm' : 'text-[#5f6368] hover:text-[#202124]'}`}
           >
             Single Entry
           </button>
           <button 
             onClick={() => setIsBulk(true)}
-            className={`px-4 py-1.5 rounded-none text-xs font-bold transition-all ${isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`px-4 py-1.5 rounded text-xs font-medium transition-all ${isBulk ? 'bg-white text-[#1a73e8] shadow-sm' : 'text-[#5f6368] hover:text-[#202124]'}`}
           >
             Bulk Excel
           </button>
@@ -125,55 +125,61 @@ export default function UploadPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-white p-8 rounded-none shadow-sm border border-slate-200"
+            className="bg-white p-8 rounded-lg border border-[#dadce0]"
           >
             <form onSubmit={handleSingleSubmit} className="space-y-6">
               {message && (
-                <div className="bg-brand-50 text-brand-600 p-3 rounded-none flex items-center gap-2 text-sm font-bold border border-brand-100">
+                <div className="bg-[#e6f4ea] text-[#1e8e3e] p-3 rounded flex items-center gap-2 text-sm font-medium border border-[#ceead6]">
                   <CheckCircle size={18} />
                   {message}
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Target Client</label>
-                  <select
-                    value={selectedClient}
-                    onChange={(e) => setSelectedClient(e.target.value)}
-                    className="modern-input"
-                    required
-                  >
-                    <option value="">Select Client Account</option>
-                    {clients.map((c: any) => (
-                      <option key={c.id} value={c.id}>{c.name} (@{c.username})</option>
-                    ))}
-                  </select>
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Target Client</label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
+                    <select
+                      value={selectedClient}
+                      onChange={(e) => setSelectedClient(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 bg-white border border-[#dadce0] rounded text-sm text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all appearance-none"
+                      required
+                    >
+                      <option value="">Select Client Account</option>
+                      {clients.map((c: any) => (
+                        <option key={c.id} value={c.id}>{c.name} (@{c.username})</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Transaction Date</label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="modern-input"
-                    required
-                  />
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Transaction Date</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
+                    <input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 bg-white border border-[#dadce0] rounded text-sm text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Royalty Amount</label>
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Royalty Amount</label>
                   <div className="relative group">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
                     <input
                       type="number"
                       step="0.01"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      className="modern-input !pl-8"
+                      className="w-full pl-10 pr-4 py-2 bg-white border border-[#dadce0] rounded text-sm text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all"
                       placeholder="0.00"
                       required
                     />
@@ -181,24 +187,27 @@ export default function UploadPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Revenue Source</label>
-                  <input
-                    type="text"
-                    value={source}
-                    onChange={(e) => setSource(e.target.value)}
-                    className="modern-input"
-                    placeholder="e.g. Spotify, Apple Music"
-                    required
-                  />
+                  <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Revenue Source</label>
+                  <div className="relative">
+                    <Database className="absolute left-3 top-1/2 -translate-y-1/2 text-[#70757a]" size={16} />
+                    <input
+                      type="text"
+                      value={source}
+                      onChange={(e) => setSource(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 bg-white border border-[#dadce0] rounded text-sm text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all"
+                      placeholder="e.g. Spotify, Apple Music"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Internal Description</label>
+                <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Internal Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="modern-input h-24 resize-none py-3"
+                  className="w-full px-4 py-2 bg-white border border-[#dadce0] rounded text-sm text-[#202124] focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all h-24 resize-none"
                   placeholder="Provide detailed context..."
                   required
                 />
@@ -206,7 +215,7 @@ export default function UploadPage() {
 
               <button
                 type="submit"
-                className="w-full bg-slate-900 text-white font-bold py-3 rounded-none hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 modern-button"
+                className="w-full bg-[#1a73e8] text-white font-medium py-2 rounded hover:bg-[#1967d2] active:bg-[#185abc] transition-all flex items-center justify-center gap-2"
               >
                 <Database size={18} />
                 Commit Record
@@ -221,13 +230,13 @@ export default function UploadPage() {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-6"
           >
-            <div className="bg-white p-10 rounded-none shadow-sm border border-slate-200 border-dashed border-2 flex flex-col items-center justify-center text-center group hover:border-brand-500/50 transition-colors">
-              <div className="w-16 h-16 bg-brand-50 rounded-none flex items-center justify-center text-brand-600 mb-4 group-hover:scale-105 transition-transform">
+            <div className="bg-white p-10 rounded-lg border border-[#dadce0] border-dashed border-2 flex flex-col items-center justify-center text-center group hover:border-[#1a73e8] transition-colors">
+              <div className="w-16 h-16 bg-[#e8f0fe] rounded flex items-center justify-center text-[#1a73e8] mb-4 group-hover:scale-105 transition-transform">
                 <FileUp size={32} />
               </div>
-              <h3 className="text-xl font-extrabold text-slate-900">Upload Spreadsheet</h3>
-              <p className="text-slate-500 mt-1 max-w-md text-sm font-medium">
-                Columns: <span className="text-slate-900 font-bold">username, amount, date, source, description</span>.
+              <h3 className="text-xl font-medium text-[#202124]">Upload Spreadsheet</h3>
+              <p className="text-[#70757a] mt-1 max-w-md text-sm">
+                Columns: <span className="text-[#202124] font-medium">username, amount, date, source, description</span>.
               </p>
               <input 
                 type="file" 
@@ -239,7 +248,7 @@ export default function UploadPage() {
               />
               <label 
                 htmlFor="excel-upload"
-                className="mt-6 bg-slate-900 text-white px-8 py-3 rounded-none font-bold hover:bg-slate-800 cursor-pointer transition-all shadow-lg shadow-slate-900/10 modern-button"
+                className="mt-6 bg-[#1a73e8] text-white px-8 py-3 rounded font-medium hover:bg-[#1967d2] cursor-pointer transition-all"
               >
                 Select File
               </label>
@@ -249,23 +258,23 @@ export default function UploadPage() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
+                className="bg-white rounded-lg border border-[#dadce0] overflow-hidden"
               >
-                <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                <div className="p-6 border-b border-[#f1f3f4] flex justify-between items-center bg-[#f8f9fa]">
                   <div>
-                    <h3 className="text-lg font-extrabold text-slate-900">Preview Data</h3>
-                    <p className="text-xs text-slate-500 font-medium">{bulkData.length} records detected</p>
+                    <h3 className="text-lg font-medium text-[#202124]">Preview Data</h3>
+                    <p className="text-xs text-[#70757a]">{bulkData.length} records detected</p>
                   </div>
                   <div className="flex gap-2">
                     <button 
                       onClick={() => setBulkData([])}
-                      className="p-2 text-red-500 bg-red-50 rounded-none hover:bg-red-100 transition-colors"
+                      className="p-2 text-[#d93025] bg-[#fce8e6] rounded hover:bg-[#fad2cf] transition-colors"
                     >
                       <Trash2 size={18} />
                     </button>
                     <button 
                       onClick={handleBulkSubmit}
-                      className="bg-brand-500 text-white px-6 py-2 rounded-none text-sm font-bold hover:bg-brand-600 transition-all shadow-md shadow-brand-500/20"
+                      className="bg-[#1a73e8] text-white px-6 py-2 rounded text-sm font-medium hover:bg-[#1967d2] transition-all"
                     >
                       Process & Upload
                     </button>
@@ -273,32 +282,32 @@ export default function UploadPage() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-50 text-slate-500">
+                    <thead className="bg-[#f8f9fa] text-[#70757a]">
                       <tr>
-                        <th className="px-6 py-3 font-bold uppercase tracking-wider">Client</th>
-                        <th className="px-6 py-3 font-bold uppercase tracking-wider">Date</th>
-                        <th className="px-6 py-3 font-bold uppercase tracking-wider">Source</th>
-                        <th className="px-6 py-3 font-bold uppercase tracking-wider text-right">Amount</th>
-                        <th className="px-6 py-3 font-bold uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 font-medium uppercase tracking-wider">Client</th>
+                        <th className="px-6 py-3 font-medium uppercase tracking-wider">Date</th>
+                        <th className="px-6 py-3 font-medium uppercase tracking-wider">Source</th>
+                        <th className="px-6 py-3 font-medium uppercase tracking-wider text-right">Amount</th>
+                        <th className="px-6 py-3 font-medium uppercase tracking-wider">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-[#f1f3f4]">
                       {bulkData.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                        <tr key={idx} className="hover:bg-[#f8f9fa] transition-colors">
                           <td className="px-6 py-3">
-                            <p className="font-bold text-slate-900">{row.client_name}</p>
-                            <p className="text-[9px] font-bold text-slate-400">@{row.username}</p>
+                            <p className="font-medium text-[#202124]">{row.client_name}</p>
+                            <p className="text-[9px] text-[#70757a]">@{row.username}</p>
                           </td>
-                          <td className="px-6 py-3 font-medium text-slate-600">{row.date}</td>
-                          <td className="px-6 py-3 font-medium text-slate-900">{row.source}</td>
-                          <td className="px-6 py-3 text-right font-extrabold text-brand-600">${row.amount}</td>
+                          <td className="px-6 py-3 text-[#5f6368]">{row.date}</td>
+                          <td className="px-6 py-3 text-[#202124]">{row.source}</td>
+                          <td className="px-6 py-3 text-right font-medium text-[#1a73e8]">${row.amount}</td>
                           <td className="px-6 py-3">
                             {row.isValid ? (
-                              <span className="text-emerald-500 flex items-center gap-1 font-bold">
+                              <span className="text-[#1e8e3e] flex items-center gap-1 font-medium">
                                 <CheckCircle size={12} /> Valid
                               </span>
                             ) : (
-                              <span className="text-red-500 flex items-center gap-1 font-bold">
+                              <span className="text-[#d93025] flex items-center gap-1 font-medium">
                                 <AlertCircle size={12} /> Invalid
                               </span>
                             )}

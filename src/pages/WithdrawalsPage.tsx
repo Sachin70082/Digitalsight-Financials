@@ -53,43 +53,39 @@ export default function WithdrawalsPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-10 animate-fade-in">
       <div>
-        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Withdraw Funds</h2>
-        <p className="text-slate-500 mt-1 text-sm font-medium">Transfer your royalty earnings to your connected bank account.</p>
+        <h2 className="text-2xl font-medium text-[#202124] tracking-tight">Withdraw Funds</h2>
+        <p className="text-[#70757a] mt-1 text-sm">Transfer your royalty earnings to your connected bank account.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-8 rounded-none shadow-sm border border-slate-200"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-4 bg-brand-50 text-brand-600 rounded-none shadow-inner">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+        <div className="lg:col-span-2 space-y-8">
+          <div className="bg-white p-8 rounded-lg border border-[#dadce0]">
+            <div className="flex items-center gap-5 mb-10">
+              <div className="p-4 bg-[#e8f0fe] text-[#1a73e8] rounded">
                 <CreditCard size={24} />
               </div>
               <div>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Available for Payout</p>
-                <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                <p className="text-[11px] text-[#70757a] font-medium uppercase tracking-wider mb-1">Available for Payout</p>
+                <h3 className="text-3xl font-medium text-[#202124] tracking-tight">
                   {stats ? formatCurrency(stats.balance, user?.currency) : '...'}
                 </h3>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Withdrawal Amount</label>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[11px] font-medium text-[#70757a] uppercase tracking-wider ml-1">Withdrawal Amount</label>
                 <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-extrabold text-lg group-focus-within:text-brand-500 transition-colors">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#70757a] font-medium text-lg group-focus-within:text-[#1a73e8] transition-colors">
                     {user?.currency === 'USD' ? '$' : '₹'}
                   </span>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="modern-input !pl-10 text-xl font-extrabold tracking-tight"
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-[#dadce0] rounded focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all outline-none text-xl font-medium tracking-tight"
                     placeholder="0.00"
                     min="1"
                     step="0.01"
@@ -99,66 +95,62 @@ export default function WithdrawalsPage() {
               </div>
 
               {message && (
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-3 rounded-none text-xs font-bold flex items-center gap-2 ${message.includes('Insufficient') ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-brand-50 text-brand-600 border border-brand-100'}`}
-                >
+                <div className={`p-4 rounded text-xs font-medium flex items-center gap-3 ${message.includes('Insufficient') ? 'bg-[#fce8e6] text-[#d93025] border border-[#f9d2ce]' : 'bg-[#e6f4ea] text-[#1e8e3e] border border-[#ceead6]'}`}>
                   {message.includes('Insufficient') ? <AlertCircle size={16} /> : <CheckCircle size={16} />}
                   {message}
-                </motion.div>
+                </div>
               )}
 
               <button
                 type="submit"
-                className="w-full bg-slate-900 text-white font-bold py-3.5 rounded-none hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 flex items-center justify-center gap-2 group modern-button"
+                className="primary-button w-full py-3 flex items-center justify-center gap-2 group"
               >
                 Initiate Transfer
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
-          </motion.div>
+          </div>
 
-          <div className="bg-brand-50 p-6 rounded-none border border-brand-100">
-            <h4 className="text-brand-800 font-bold text-sm mb-1 flex items-center gap-2">
-              <AlertCircle size={16} />
+          <div className="bg-[#f8f9fa] p-6 rounded-lg border border-[#dadce0]">
+            <h4 className="text-[#202124] font-medium text-sm mb-2 flex items-center gap-2">
+              <AlertCircle size={16} className="text-[#5f6368]" />
               Payout Policy
             </h4>
-            <p className="text-brand-700/80 text-xs font-medium leading-relaxed">
+            <p className="text-[#5f6368] text-xs leading-relaxed">
               Withdrawal requests are typically processed within 2-3 business days. Minimum withdrawal amount is 100 INR.
             </p>
           </div>
         </div>
 
-        <div className="lg:col-span-3 bg-white rounded-none shadow-sm border border-slate-200 flex flex-col">
-          <div className="p-6 border-b border-slate-50 flex items-center justify-between">
+        <div className="lg:col-span-3 google-table-container flex flex-col">
+          <div className="p-6 border-b border-[#f1f3f4] bg-[#f8f9fa] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-slate-50 rounded-none flex items-center justify-center text-slate-400">
+              <div className="w-8 h-8 bg-white border border-[#dadce0] rounded flex items-center justify-center text-[#5f6368]">
                 <History size={18} />
               </div>
-              <h3 className="text-lg font-extrabold text-slate-900">Transfer History</h3>
+              <h3 className="text-base font-medium text-[#202124]">Transfer History</h3>
             </div>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{withdrawals.length} Total</span>
+            <span className="text-[10px] font-medium text-[#70757a] uppercase tracking-wider">{withdrawals.length} Total</span>
           </div>
           <div className="flex-1 overflow-y-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-400 sticky top-0 z-10">
+            <table className="google-table">
+              <thead>
                 <tr>
-                  <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Reference Date</th>
-                  <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px]">Amount</th>
-                  <th className="px-6 py-3 font-bold uppercase tracking-wider text-[9px] text-right">Status</th>
+                  <th>Reference Date</th>
+                  <th>Amount</th>
+                  <th className="text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody>
                 {withdrawals.map((item: any) => (
-                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 text-slate-600 font-bold">{new Date(item.request_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
-                    <td className="px-6 py-4 font-extrabold text-slate-900 text-base">{formatCurrency(item.amount, user?.currency)}</td>
-                    <td className="px-6 py-4 text-right">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[9px] font-extrabold uppercase tracking-widest ${
-                        item.status === 'approved' ? 'bg-emerald-100 text-emerald-700' :
-                        item.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                        'bg-amber-100 text-amber-700'
+                  <tr key={item.id}>
+                    <td className="text-[#5f6368]">{new Date(item.request_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
+                    <td className="font-medium text-[#202124] text-base">{formatCurrency(item.amount, user?.currency)}</td>
+                    <td className="text-right">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider border ${
+                        item.status === 'approved' ? 'bg-[#e6f4ea] text-[#1e8e3e] border-[#ceead6]' :
+                        item.status === 'rejected' ? 'bg-[#fce8e6] text-[#d93025] border-[#f9d2ce]' :
+                        'bg-[#fef7e0] text-[#ea8600] border-[#feefc3]'
                       }`}>
                         {item.status}
                       </span>
@@ -167,10 +159,10 @@ export default function WithdrawalsPage() {
                 ))}
                 {withdrawals.length === 0 && (
                   <tr>
-                    <td colSpan={3} className="px-6 py-12 text-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <DollarSign size={32} className="text-slate-100" />
-                        <p className="text-slate-400 font-bold">No history found</p>
+                    <td colSpan={3} className="px-6 py-20 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <DollarSign size={32} className="text-[#dadce0]" />
+                        <p className="text-[#70757a] text-xs font-medium uppercase tracking-widest">No history found</p>
                       </div>
                     </td>
                   </tr>

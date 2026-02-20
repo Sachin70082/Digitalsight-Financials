@@ -93,19 +93,19 @@ export default function ClientReportsPage() {
   );
 
   return (
-    <main className="space-y-6 pb-12" aria-label="Financial Reports">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <main className="space-y-8 pb-12 animate-fade-in" aria-label="Financial Reports">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="flex items-center gap-2 text-brand-600 font-bold text-[10px] uppercase tracking-widest mb-1">
+          <div className="flex items-center gap-2 text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-2">
             <FileText size={14} aria-hidden="true" />
             <span>Statements</span>
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Financial Reports</h1>
-          <p className="text-slate-500 mt-1 text-sm font-medium">Official monthly revenue statements and balance sheets.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Financial Reports</h1>
+          <p className="text-slate-500 mt-1.5 text-sm font-medium">Official monthly revenue statements and balance sheets.</p>
         </div>
         
-        <div className="flex items-center bg-white border border-slate-200 rounded-none px-3 py-2 w-full md:w-80 shadow-sm focus-within:ring-2 focus-within:ring-brand-500/20 transition-all">
-          <Search size={16} className="text-slate-400" aria-hidden="true" />
+        <div className="ga-search-bar w-full md:w-96">
+          <Search size={18} className="text-[#5f6368]" aria-hidden="true" />
           <input 
             type="text" 
             placeholder="Search statements..." 
@@ -114,38 +114,38 @@ export default function ClientReportsPage() {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="bg-transparent border-none focus:ring-0 text-sm w-full ml-2 text-slate-600 placeholder:text-slate-400" 
+            className="ga-search-input" 
             aria-label="Search statements"
           />
         </div>
       </header>
 
-      <section className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden" aria-label="Reports Ledger">
-        <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-slate-50/50">
+      <section className="google-table-container" aria-label="Reports Ledger">
+        <div className="p-6 border-b border-[#f1f3f4] flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-[#f8f9fa]">
           <div>
-            <h2 className="text-lg font-extrabold text-slate-900">Revenue Ledger</h2>
-            <p className="text-xs text-slate-500 font-medium mt-0.5">Detailed breakdown of gross revenue, deductions, and net earnings.</p>
+            <h2 className="text-base font-medium text-[#202124]">Revenue Ledger</h2>
+            <p className="text-[11px] text-[#70757a] font-medium uppercase tracking-wider mt-0.5">Detailed breakdown of gross revenue and net earnings</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] font-bold text-slate-500 bg-white px-3 py-1.5 rounded-none border border-slate-200 shadow-sm uppercase tracking-widest">
+            <span className="text-[10px] font-medium text-[#5f6368] bg-white px-3 py-1 rounded border border-[#dadce0] uppercase tracking-wider">
               {filteredReports.length} Statements
             </span>
           </div>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="google-table">
             <thead>
-              <tr className="bg-white border-b-2 border-slate-200">
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-400 uppercase tracking-widest">Period</th>
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-400 uppercase tracking-widest text-right">Gross Revenue</th>
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-400 uppercase tracking-widest text-right">Share</th>
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-400 uppercase tracking-widest text-right">Deductions</th>
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-900 uppercase tracking-widest text-right bg-slate-50/50">Net Earnings</th>
-                <th className="px-6 py-4 text-xs font-extrabold text-slate-400 uppercase tracking-widest text-right">Document</th>
+              <tr>
+                <th>Period</th>
+                <th className="text-right">Gross Revenue</th>
+                <th className="text-right">Share</th>
+                <th className="text-right">Deductions</th>
+                <th className="text-right bg-[#f1f3f4]/50">Net Earnings</th>
+                <th className="text-right">Document</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody>
               {isLoading ? (
                 <>
                   <SkeletonRow />
@@ -155,69 +155,67 @@ export default function ClientReportsPage() {
                   <SkeletonRow />
                 </>
               ) : currentReports.length > 0 ? (
-                currentReports.map((report: any) => {
+                currentReports.map((report: any, idx: number) => {
                   const share = user?.revenueShare ?? stats?.sharePercent ?? 0;
                   const formatted = formatReportRow(report, share);
                   
                   return (
                     <motion.tr 
                       key={report.id} 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="hover:bg-slate-50/80 transition-colors group"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * idx }}
                     >
-                      <td className="px-6 py-5">
+                      <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-none bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors shrink-0">
+                          <div className="w-9 h-9 rounded bg-[#f1f3f4] flex items-center justify-center text-[#5f6368] shrink-0">
                             <Calendar size={18} />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-slate-900">
+                            <p className="text-sm font-medium text-[#202124]">
                               {new Date(report.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                             </p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+                            <p className="text-[10px] text-[#70757a]">
                               {formatDate(report.start_date)} - {formatDate(report.end_date)}
                             </p>
                           </div>
                         </div>
                       </td>
                       
-                      <td className="px-6 py-5 text-right">
-                        <div className="flex flex-col items-end">
-                          <span className="text-sm font-bold text-slate-600 font-mono">
-                            {formatCurrency(formatted.gross, user?.currency)}
-                          </span>
-                        </div>
+                      <td className="text-right">
+                        <span className="text-sm text-[#3c4043]">
+                          {formatCurrency(formatted.gross, user?.currency)}
+                        </span>
                       </td>
                       
-                      <td className="px-6 py-5 text-right">
-                        <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-none bg-slate-100 text-slate-600 text-xs font-bold border border-slate-200">
+                      <td className="text-right">
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded bg-[#f1f3f4] text-[#5f6368] text-[10px] font-medium border border-[#dadce0]">
                           {share}%
                         </span>
                       </td>
                       
-                      <td className="px-6 py-5 text-right">
-                        <div className="flex items-center justify-end gap-1.5 text-red-500">
+                      <td className="text-right">
+                        <div className="flex items-center justify-end gap-1 text-[#d93025]">
                           <ArrowDownRight size={14} />
-                          <span className="text-sm font-bold font-mono">
+                          <span className="text-sm font-medium">
                             {formatCurrency(formatted.deductions, user?.currency)}
                           </span>
                         </div>
                       </td>
                       
-                      <td className="px-6 py-5 text-right bg-slate-50/30 group-hover:bg-brand-50/30 transition-colors">
-                        <div className="flex items-center justify-end gap-1.5 text-emerald-600">
+                      <td className="text-right bg-[#f8f9fa]/50">
+                        <div className="flex items-center justify-end gap-1 text-[#1e8e3e]">
                           <ArrowUpRight size={16} />
-                          <span className="text-base font-extrabold font-mono tracking-tight">
+                          <span className="text-base font-medium tracking-tight">
                             {formatCurrency(formatted.net, user?.currency)}
                           </span>
                         </div>
                       </td>
                       
-                      <td className="px-6 py-5 text-right">
+                      <td className="text-right">
                         <button 
                           onClick={() => downloadUploadedReport(report.id, report.filename)}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-none hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-sm text-xs font-bold focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
+                          className="modern-button inline-flex items-center gap-2 py-1.5"
                           aria-label={`Download statement for ${formatDate(report.start_date)}`}
                         >
                           <Download size={14} aria-hidden="true" />
@@ -229,13 +227,17 @@ export default function ClientReportsPage() {
                 })
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-6 py-16 text-center">
-                    <div className="flex flex-col items-center justify-center text-slate-400">
-                      <FileText size={40} className="mb-4 opacity-20" />
-                      <p className="text-base font-bold text-slate-600">No statements found</p>
-                      <p className="text-sm mt-1">
-                        {searchTerm ? "Try adjusting your search terms." : "Monthly reports will appear here once generated."}
-                      </p>
+                  <td colSpan={6} className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[#dadce0] gap-4">
+                      <div className="w-12 h-12 bg-[#f8f9fa] rounded-full flex items-center justify-center">
+                        <FileText size={24} className="opacity-20" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium text-[#70757a] uppercase tracking-widest">No statements found</p>
+                        <p className="text-[11px] mt-1 text-[#5f6368]">
+                          {searchTerm ? "Try adjusting your search terms." : "Monthly reports will appear here once generated."}
+                        </p>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -246,26 +248,26 @@ export default function ClientReportsPage() {
         
         {/* Pagination Controls */}
         {!isLoading && totalPages > 1 && (
-          <footer className="p-4 border-t border-slate-100 flex items-center justify-between bg-white">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+          <footer className="p-4 border-t border-[#f1f3f4] flex items-center justify-between bg-white">
+            <p className="text-[10px] font-medium text-[#70757a] uppercase tracking-wider">
               Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredReports.length)} of {filteredReports.length}
             </p>
             <nav className="flex gap-2" aria-label="Pagination">
               <button 
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 bg-white border border-slate-200 rounded-none text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus:ring-2 focus:ring-brand-500"
+                className="modern-button p-1.5"
                 aria-label="Previous page"
               >
                 <ChevronLeft size={16} aria-hidden="true" />
               </button>
-              <div className="flex items-center px-4 text-xs font-bold text-slate-900 bg-slate-50 rounded-none border border-slate-100">
+              <div className="flex items-center px-4 text-[11px] font-medium text-[#3c4043] bg-[#f8f9fa] rounded border border-[#dadce0]">
                 Page {currentPage} of {totalPages}
               </div>
               <button 
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="p-2 bg-white border border-slate-200 rounded-none text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus:ring-2 focus:ring-brand-500"
+                className="modern-button p-1.5"
                 aria-label="Next page"
               >
                 <ChevronRight size={16} aria-hidden="true" />

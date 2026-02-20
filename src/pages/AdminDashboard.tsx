@@ -47,99 +47,88 @@ export default function AdminDashboard() {
   }, [withdrawals]);
 
   return (
-    <main className="space-y-6 pb-12" aria-label="Admin Dashboard">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <main className="space-y-8 pb-12 animate-fade-in" aria-label="Admin Dashboard">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="flex items-center gap-2 text-brand-600 font-bold text-[10px] uppercase tracking-widest mb-1">
-            <ShieldCheck size={14} aria-hidden="true" />
-            <span>Administrative Control</span>
-          </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">System Overview</h1>
-          <p className="text-slate-500 mt-1 text-sm font-medium">Welcome back, {user?.name}. Here's what's happening today.</p>
+          <h1 className="text-2xl font-medium text-[#202124] tracking-tight">System Overview</h1>
+          <p className="text-[#70757a] mt-1 text-sm">Welcome back, <span className="text-[#202124] font-medium">{user?.name}</span>. Here's what's happening today.</p>
         </div>
         
         <button 
-          className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-none hover:bg-slate-800 focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all text-xs font-bold shadow-lg shadow-slate-900/10 modern-button"
+          className="primary-button flex items-center gap-2 py-2"
           aria-label="Add New Client"
         >
-          <UserPlus size={16} aria-hidden="true" />
+          <UserPlus size={16} />
           <span>New Client</span>
         </button>
       </header>
 
-      {/* Stats Grid */}
+      {/* Stats Grid - Flat */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6" aria-label="System Statistics">
-        <article className="bg-white p-6 rounded-none shadow-sm border border-slate-200">
-          <header className="flex justify-between items-start mb-4">
-            <div className="w-10 h-10 bg-blue-50 rounded-none flex items-center justify-center text-blue-600" aria-hidden="true">
-              <Users size={20} />
+        <div className="bg-white p-6 rounded-lg border border-[#dadce0]">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-8 h-8 bg-[#e8f0fe] rounded flex items-center justify-center text-[#1a73e8]">
+              <Users size={18} />
             </div>
-            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-none">Active</span>
-          </header>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Clients</h2>
-          <p className="text-3xl font-extrabold text-slate-900 tracking-tight">{clients.length}</p>
-        </article>
+            <span className="text-[10px] font-medium text-[#1e8e3e] bg-[#e6f4ea] px-2 py-0.5 rounded uppercase tracking-wider border border-[#ceead6]">Active</span>
+          </div>
+          <h2 className="text-[#70757a] text-[11px] font-medium uppercase tracking-wider mb-1">Total Clients</h2>
+          <p className="text-3xl font-medium text-[#202124] tracking-tight">{clients.length}</p>
+        </div>
 
-        <article className="bg-white p-6 rounded-none shadow-sm border border-slate-200">
-          <header className="flex justify-between items-start mb-4">
-            <div className="w-10 h-10 bg-amber-50 rounded-none flex items-center justify-center text-amber-600" aria-hidden="true">
-              <Clock size={20} />
+        <div className="bg-white p-6 rounded-lg border border-[#dadce0]">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-8 h-8 bg-[#fef7e0] rounded flex items-center justify-center text-[#f9ab00]">
+              <Clock size={18} />
             </div>
-            <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-none">Action Required</span>
-          </header>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Pending Requests</h2>
-          <p className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            {pendingRequests}
-          </p>
-        </article>
+            <span className="text-[10px] font-medium text-[#ea8600] bg-[#fef7e0] px-2 py-0.5 rounded uppercase tracking-wider border border-[#feefc3]">Action Required</span>
+          </div>
+          <h2 className="text-[#70757a] text-[11px] font-medium uppercase tracking-wider mb-1">Pending Requests</h2>
+          <p className="text-3xl font-medium text-[#202124] tracking-tight">{pendingRequests}</p>
+        </div>
 
-        <article className="bg-white p-6 rounded-none shadow-sm border border-slate-200">
-          <header className="flex justify-between items-start mb-4">
-            <div className="w-10 h-10 bg-emerald-50 rounded-none flex items-center justify-center text-emerald-600" aria-hidden="true">
-              <DollarSign size={20} />
+        <div className="bg-white p-6 rounded-lg border border-[#dadce0]">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-8 h-8 bg-[#e6f4ea] rounded flex items-center justify-center text-[#1e8e3e]">
+              <DollarSign size={18} />
             </div>
-            <span className="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded-none">YTD</span>
-          </header>
-          <h2 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Volume</h2>
-          <p className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            {formatCurrency(totalVolume)}
-          </p>
-        </article>
+            <span className="text-[10px] font-medium text-[#70757a] bg-[#f1f3f4] px-2 py-0.5 rounded uppercase tracking-wider border border-[#dadce0]">YTD</span>
+          </div>
+          <h2 className="text-[#70757a] text-[11px] font-medium uppercase tracking-wider mb-1">Total Volume</h2>
+          <p className="text-3xl font-medium text-[#202124] tracking-tight">{formatCurrency(totalVolume)}</p>
+        </div>
       </section>
 
-      {/* Client List */}
-      <section className="bg-white rounded-none shadow-sm border border-slate-200 flex flex-col" aria-label="Client Directory">
-        <header className="p-6 border-b border-slate-50 flex justify-between items-center">
+      {/* Client List - Flat */}
+      <section className="google-table-container flex flex-col">
+        <header className="p-6 border-b border-[#f1f3f4] bg-[#f8f9fa] flex justify-between items-center">
           <div>
-            <h2 className="text-lg font-extrabold text-slate-900">Client Directory</h2>
-            <p className="text-xs text-slate-400 font-medium">Active royalty accounts</p>
+            <h2 className="text-base font-medium text-[#202124]">Client Directory</h2>
+            <p className="text-xs text-[#70757a] mt-0.5">Active royalty accounts</p>
           </div>
         </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
           {clients.map((client: any) => (
-            <motion.article 
+            <div 
               key={client.id} 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-slate-50 p-4 rounded-none border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all group cursor-pointer focus-within:ring-2 focus-within:ring-brand-500"
+              className="bg-white p-5 rounded-lg border border-[#f1f3f4] hover:border-[#dadce0] hover:bg-[#f8f9fa] transition-all group cursor-pointer"
               tabIndex={0}
               role="button"
-              aria-label={`View details for ${client.name}`}
             >
-              <header className="flex justify-between items-start mb-3">
-                <div className="w-10 h-10 bg-white rounded-none flex items-center justify-center text-slate-500 font-bold text-sm shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors" aria-hidden="true">
+              <div className="flex justify-between items-start mb-4">
+                <div className="w-10 h-10 bg-[#f1f3f4] rounded-full flex items-center justify-center text-[#5f6368] font-medium text-sm border border-[#dadce0] group-hover:bg-white transition-colors">
                   {client.name.charAt(0)}
                 </div>
-                <ArrowUpRight size={16} className="text-slate-300 group-hover:text-slate-900 transition-colors" aria-hidden="true" />
-              </header>
-              <h3 className="text-sm font-bold text-slate-900 mb-0.5">{client.name}</h3>
-              <p className="text-[10px] font-medium text-slate-400 mb-3">{client.email}</p>
-              <footer className="flex items-center gap-2">
-                <span className="text-[9px] font-bold text-slate-500 bg-white px-2 py-1 rounded-none border border-slate-100 uppercase tracking-wider">
+                <ArrowUpRight size={16} className="text-[#dadce0] group-hover:text-[#1a73e8] transition-colors" />
+              </div>
+              <h3 className="text-sm font-medium text-[#202124] mb-0.5">{client.name}</h3>
+              <p className="text-[11px] text-[#70757a] mb-4">{client.email}</p>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-medium text-[#5f6368] bg-white px-2 py-0.5 rounded border border-[#dadce0] uppercase tracking-wider">
                   {client.currency || 'USD'}
                 </span>
-              </footer>
-            </motion.article>
+              </div>
+            </div>
           ))}
         </div>
       </section>

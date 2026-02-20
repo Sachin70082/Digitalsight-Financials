@@ -54,114 +54,107 @@ export default function AdminNotificationsPage() {
     n.client_email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  return (
-    <main className="space-y-6 pb-12" aria-label="Admin Notifications">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    return (
+    <main className="space-y-8 pb-12 animate-fade-in" aria-label="Admin Notifications">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="flex items-center gap-2 text-brand-600 font-bold text-[10px] uppercase tracking-widest mb-1">
+          <div className="flex items-center gap-2 text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-2">
             <Bell size={14} aria-hidden="true" />
             <span>System Notifications</span>
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Notification Management</h1>
-          <p className="text-slate-500 mt-1 text-sm font-medium">View and manage all system notifications sent to clients.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Notification Management</h1>
+          <p className="text-slate-500 mt-1.5 text-sm font-medium">View and manage all system notifications sent to clients.</p>
         </div>
         
-        <div className="flex items-center bg-white border border-slate-200 rounded-none px-3 py-2 w-full md:w-80 shadow-sm focus-within:ring-2 focus-within:ring-brand-500/20 transition-all">
-          <Search size={16} className="text-slate-400" aria-hidden="true" />
+        <div className="ga-search-bar w-full md:w-96">
+          <Search size={18} className="text-[#5f6368]" />
           <input 
             type="text" 
             placeholder="Search notifications..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent border-none focus:ring-0 text-sm w-full ml-2 text-slate-600 placeholder:text-slate-400" 
+            className="ga-search-input" 
             aria-label="Search notifications"
           />
         </div>
       </header>
 
-      <section className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden">
+      <section className="google-table-container">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="google-table">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Client</th>
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Type</th>
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Message</th>
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+              <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th className="px-8">Type</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th className="text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-slate-400">
-                    <div className="flex justify-center mb-2">
-                      <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+                  <td colSpan={6} className="p-12 text-center text-[#dadce0]">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 border-2 border-[#1a73e8] border-t-transparent rounded-full animate-spin"></div>
+                      <p className="text-xs font-medium uppercase tracking-widest">Loading...</p>
                     </div>
-                    Loading notifications...
                   </td>
                 </tr>
               ) : filteredNotifications.length > 0 ? (
                 filteredNotifications.map((notif) => (
-                  <motion.tr 
-                    key={notif.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="hover:bg-slate-50 transition-colors group"
-                  >
-                    <td className="p-4 text-sm text-slate-600 whitespace-nowrap">
+                  <tr key={notif.id}>
+                    <td className="text-xs text-[#5f6368] whitespace-nowrap">
                       {formatDate(notif.created_at)}
                     </td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-none bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs shrink-0">
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-[#f1f3f4] flex items-center justify-center text-[#5f6368] font-medium text-xs border border-[#dadce0]">
                           {notif.client_name ? notif.client_name.charAt(0) : '?'}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-slate-900">{notif.client_name || 'Unknown'}</p>
-                          <p className="text-[10px] text-slate-500">{notif.client_email || `ID: ${notif.user_id}`}</p>
+                          <p className="text-sm font-medium text-[#202124]">{notif.client_name || 'Unknown'}</p>
+                          <p className="text-[10px] text-[#70757a]">{notif.client_email || `ID: ${notif.user_id}`}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider ${
-                        notif.type === 'revenue' ? 'bg-emerald-50 text-emerald-600' : 
-                        notif.type === 'withdrawal' ? 'bg-amber-50 text-amber-600' : 
-                        'bg-blue-50 text-blue-600'
+                    <td className="px-8">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider border ${
+                        notif.type === 'revenue' ? 'bg-[#e6f4ea] text-[#1e8e3e] border-[#ceead6]' : 
+                        notif.type === 'withdrawal' ? 'bg-[#fef7e0] text-[#ea8600] border-[#feefc3]' : 
+                        'bg-[#e8f0fe] text-[#1a73e8] border-[#d2e3fc]'
                       }`}>
                         {notif.type || 'System'}
                       </span>
                     </td>
-                    <td className="p-4 text-sm text-slate-700 max-w-md truncate" title={notif.message}>
+                    <td className="text-sm text-[#3c4043] max-w-md truncate" title={notif.message}>
                       {notif.message}
                     </td>
-                    <td className="p-4">
+                    <td>
                       {notif.is_read ? (
-                        <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-none uppercase">Read</span>
+                        <span className="text-[10px] font-medium text-[#70757a] bg-[#f1f3f4] px-2 py-0.5 rounded uppercase">Read</span>
                       ) : (
-                        <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-none uppercase">Unread</span>
+                        <span className="text-[10px] font-medium text-[#1a73e8] bg-[#e8f0fe] px-2 py-0.5 rounded uppercase">Unread</span>
                       )}
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="text-right">
                       <button
                         onClick={() => deleteNotification(notif.id)}
-                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-none transition-colors"
+                        className="p-2 text-[#70757a] hover:text-[#d93025] hover:bg-[#fce8e6] rounded transition-colors"
                         aria-label="Delete notification"
-                        title="Delete"
                       >
                         <Trash2 size={16} />
                       </button>
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="p-12 text-center">
-                    <div className="flex flex-col items-center justify-center text-slate-400">
-                      <AlertCircle size={32} className="mb-3 opacity-50" />
-                      <p className="text-sm font-medium">No notifications found</p>
-                      {searchTerm && <p className="text-xs mt-1">Try adjusting your search</p>}
+                  <td colSpan={6} className="px-8 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[#dadce0] gap-4">
+                      <Bell size={32} className="opacity-20" />
+                      <p className="text-sm font-medium text-[#70757a] uppercase tracking-widest">No notifications</p>
                     </div>
                   </td>
                 </tr>

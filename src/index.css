@@ -5,32 +5,95 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   
-  --color-brand-50: #f0fdfa;
-  --color-brand-100: #ccfbf1;
-  --color-brand-200: #99f6e4;
-  --color-brand-300: #5eead4;
-  --color-brand-400: #2dd4bf;
-  --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
-  --color-brand-800: #115e59;
-  --color-brand-900: #134e4a;
+  /* Google Analytics Style Palette - Flat & Clean */
+  --color-brand-50: #f8f9fa;
+  --color-brand-100: #f1f3f4;
+  --color-brand-200: #e8eaed;
+  --color-brand-300: #dadce0;
+  --color-brand-400: #bdc1c6;
+  --color-brand-500: #1a73e8; /* Google Blue */
+  --color-brand-600: #1967d2;
+  --color-brand-700: #185abc;
+  --color-brand-800: #174ea6;
+  --color-brand-900: #202124;
+
+  /* Accent Color */
+  --color-accent-500: #1a73e8;
+  --color-accent-600: #174ea6;
+  
+  --shadow-none: none;
 }
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900;
+    @apply bg-[#ffffff] text-[#3c4043] antialiased selection:bg-brand-500/10 selection:text-brand-600;
   }
 }
 
-.glass-card {
-  @apply bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-sm rounded-2xl;
+.commercial-card {
+  @apply bg-white border border-[#dadce0] rounded-lg transition-all duration-200 hover:border-[#bdc1c6];
 }
 
+/* Google Analytics Style Buttons */
 .modern-button {
-  @apply relative overflow-hidden transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-xl font-semibold tracking-tight;
+  @apply relative overflow-hidden transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-md font-medium tracking-tight border border-[#dadce0] bg-white text-[#3c4043] hover:bg-[#f8f9fa] px-4 py-2 text-sm;
+}
+
+.primary-button {
+  @apply relative overflow-hidden transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-md font-medium tracking-tight bg-[#1a73e8] text-white hover:bg-[#1967d2] px-4 py-2 text-sm border border-transparent;
+}
+
+.secondary-button {
+  @apply relative overflow-hidden transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-md font-medium tracking-tight bg-white text-[#1a73e8] border border-[#dadce0] hover:bg-[#f8f9fa] px-4 py-2 text-sm;
+}
+
+/* Google Analytics Style Search Bar */
+.ga-search-bar {
+  @apply flex items-center bg-[#f1f3f4] rounded-lg px-4 py-2.5 border border-transparent focus-within:bg-white focus-within:border-[#dadce0] focus-within:shadow-[0_1px_2px_0_rgba(60,64,67,0.3),0_1px_3px_1px_rgba(60,64,67,0.15)] transition-all duration-200;
+}
+
+.ga-search-input {
+  @apply bg-transparent border-none focus:ring-0 text-sm w-full ml-3 text-[#202124] placeholder:text-[#70757a] font-normal;
 }
 
 .modern-input {
-  @apply w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all duration-200 text-sm placeholder:text-slate-400 shadow-sm;
+  @apply w-full px-4 py-2.5 bg-white border border-[#dadce0] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1a73e8] focus:border-[#1a73e8] transition-all duration-200 text-sm placeholder:text-[#70757a];
+}
+
+/* Google Style Table */
+.google-table-container {
+  @apply bg-white rounded-lg border border-[#dadce0] overflow-hidden;
+}
+
+.google-table {
+  @apply w-full text-left border-collapse;
+}
+
+.google-table thead {
+  @apply bg-[#f8f9fa] border-b border-[#dadce0];
+}
+
+.google-table th {
+  @apply px-6 py-3 text-[11px] font-medium text-[#70757a] uppercase tracking-wider;
+}
+
+.google-table td {
+  @apply px-6 py-4 text-sm text-[#3c4043] border-b border-[#f1f3f4] transition-colors;
+}
+
+.google-table tr:last-child td {
+  @apply border-b-0;
+}
+
+.google-table tr:hover td {
+  @apply bg-[#f8f9fa];
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

@@ -1,26 +1,68 @@
 /* src/dashboard.css */
 
-/* Main background should be a soft professional color */
+/* Main background should be pure white for GA look */
 body {
-  background-color: #f8fafc;
+  background-color: #ffffff;
+  color: #3c4043;
 }
 
 /* Custom scrollbar for a cleaner look */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f1f3f4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 10px;
+  background: #dadce0;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #bdc1c6;
+}
+
+/* Google Analytics Style Typography */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 0;
+  font-weight: 500;
+ 
+}
+
+/* Professional Table Styles - Flat Google Style */
+.commercial-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #dadce0;
+  background-color: #ffffff;
+}
+
+.commercial-table th {
+  @apply bg-[#f8f9fa] text-[#70757a] font-medium text-[11px] uppercase tracking-wider px-6 py-3 border-b border-[#dadce0] text-left;
+}
+
+.commercial-table td {
+  @apply px-6 py-4 border-b border-[#f1f3f4] text-sm text-[#3c4043] transition-colors;
+}
+
+.commercial-table tr:last-child td {
+  border-bottom: none;
+}
+
+.commercial-table tr:hover td {
+  @apply bg-[#f8f9fa];
+}
+
+/* Animation Utilities - Faster & Subtle */
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 

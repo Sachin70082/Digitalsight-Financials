@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
-import { Lock, User, ArrowRight, ShieldCheck, DollarSign, Globe, PieChart, Activity, Shield, Loader2 } from 'lucide-react';
+import { Lock, User, ArrowRight, ShieldCheck, DollarSign, Globe, PieChart, Activity, Shield, Loader2, AlertCircle } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -103,12 +103,10 @@ export default function LoginPage() {
       
       const data = (await res.json()) as any;
       if (res.ok && data?.success) {
-        // Small delay to show success state if needed, or just redirect
         await login(data.user as any);
       } else {
         setError(data?.message || 'Invalid credentials provided');
         setIsLoading(false);
-        // Reset turnstile on failure
         if (window.turnstile) {
           window.turnstile.reset();
           setTurnstileToken(null);
@@ -125,70 +123,64 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen bg-white flex overflow-hidden font-sans">
-      {/* Left Side: Form */}
-      <div className="w-full lg:w-[45%] flex flex-col p-8 md:p-12 lg:p-16 justify-center relative z-10 bg-white overflow-y-auto">
+    <div className="h-screen w-full flex overflow-hidden font-sans text-[#1E293B] bg-white">
+      {/* Left Side: Login Form (30% Width) */}
+      <div className="w-full lg:w-[30%] h-full flex flex-col p-8 md:p-12 lg:p-16 justify-center relative z-10 bg-white border-r border-slate-100">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="max-w-md w-full mx-auto"
+          className="w-full max-w-sm mx-auto"
         >
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center">
-              <DollarSign className="text-white" size={28} />
+          <div className="flex items-center gap-3 mb-12">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#1a73e8] to-[#0d47a1] rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+              <DollarSign className="text-white" size={24} />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Digitalsight Financials</h1>
+            <span className="text-xl font-bold text-[#0F172A] tracking-tight">Digitalsight Financials</span>
           </div>
 
           <div className="mb-10">
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-3">Welcome Back</h2>
-            <p className="text-slate-500 text-base leading-relaxed">
-              Securely access your financial dashboard and manage your royalties with precision.
-            </p>
+            <h2 className="text-3xl font-extrabold text-[#0F172A] mb-3 tracking-tight">Sign in</h2>
+            <p className="text-sm text-[#64748B] font-medium tracking-wider">Transparent Revenue. Simplified Royalty Accounting.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-red-50 text-red-600 text-sm font-medium p-4 rounded-none border border-red-100 flex items-center gap-3"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-red-50 text-red-600 text-xs font-semibold p-4 rounded-xl border border-red-100 flex items-center gap-3"
               >
-                <ShieldCheck size={18} className="shrink-0" />
+                <AlertCircle size={16} />
                 <span>{error}</span>
               </motion.div>
             )}
             
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Email Address</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-[#475569] uppercase tracking-[0.2em] ml-1">Email Address</label>
               <div className="relative group">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10">
-                  <User className="text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
-                </div>
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8] group-focus-within:text-[#1a73e8] transition-colors" size={18} />
                 <input
                   type="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
-                  placeholder="Enter your email address"
+                  className="block w-full bg-[#F8FAFC] border-2 border-[#F1F5F9] text-[#0F172A] text-sm rounded-xl pl-11 pr-4 py-3.5 focus:bg-white focus:ring-4 focus:ring-blue-600/5 focus:border-[#1a73e8] transition-all outline-none placeholder:text-[#94A3B8] font-medium"
+                  placeholder="name@company.com"
                   required
                   disabled={isLoading}
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Password</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-[#475569] uppercase tracking-[0.2em] ml-1">Password</label>
               <div className="relative group">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10">
-                  <Lock className="text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
-                </div>
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8] group-focus-within:text-[#1a73e8] transition-colors" size={18} />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
+                  className="block w-full bg-[#F8FAFC] border-2 border-[#F1F5F9] text-[#0F172A] text-sm rounded-xl pl-11 pr-4 py-3.5 focus:bg-white focus:ring-4 focus:ring-blue-600/5 focus:border-[#1a73e8] transition-all outline-none placeholder:text-[#94A3B8] font-medium"
                   placeholder="••••••••"
                   required
                   disabled={isLoading}
@@ -196,87 +188,111 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-2">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded-none border-slate-300 text-slate-900 focus:ring-slate-900" />
-                <span className="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Remember me</span>
-              </label>
-              <button type="button" className="text-sm font-bold text-slate-900 hover:underline">Forgot Password?</button>
-            </div>
+            
 
             <div className="flex justify-center py-2">
-              <div ref={turnstileRef}></div>
+              <div ref={turnstileRef} className="scale-90 origin-center"></div>
             </div>
 
             <button
               type="submit"
               disabled={isLoading || !turnstileToken}
-              className="w-full bg-slate-900 text-white font-bold text-base py-4 rounded-none hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-[#0F172A] text-white font-bold text-sm py-4 rounded-xl hover:bg-[#1E293B] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-slate-900/10 flex items-center justify-center gap-3"
             >
               {isLoading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  <span>Verifying Credentials...</span>
-                </>
+                <><Loader2 size={18} className="animate-spin" /> Verifying...</>
               ) : (
-                <>
-                  <span>Sign In to Dashboard</span>
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </>
+                <><Shield size={18} /> Sign In</>
               )}
             </button>
+            
+            <div className="pt-6 text-center">
+              <p className="text-xs text-[#64748B] font-medium">
+  New to Digitalsight?{" "}
+  <a
+    href="https://www.digitalsight.in/contact"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-[#1a73e8] font-bold hover:underline"
+  >
+    Request Access
+  </a>
+</p>
+            </div>
           </form>
         </motion.div>
       </div>
 
-      {/* Right Side: Visuals */}
-      <div className="hidden lg:flex flex-1 bg-slate-950 relative items-center justify-center overflow-hidden">
-        {/* Abstract Background Elements */}
+      {/* Right Side: Impressive Visuals (70% Width) */}
+      <div className="hidden lg:flex w-[70%] h-full bg-[#0F172A] relative items-center justify-center p-24 overflow-hidden">
+        {/* Animated Background Gradients */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[70%] bg-indigo-500/20 rounded-none blur-[120px]"></div>
-          <div className="absolute -bottom-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-500/20 rounded-none blur-[120px]"></div>
+          <div className="absolute top-[-10%] right-[-5%] w-[60%] h-[60%] bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
+          <div className="absolute bottom-[-10%] left-[-5%] w-[60%] h-[60%] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
+        
+        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
 
-        <div className="relative z-10 w-full max-w-2xl px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="space-y-10"
-          >
-            <div className="space-y-6">
-              <h3 className="text-5xl font-bold text-white leading-tight tracking-tight">
-                Financial Clarity <br /> 
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">For Modern Labels.</span>
+        <div className="relative z-10 w-full max-w-4xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest">
+                <ShieldCheck size={14} />
+                <span>Enterprise Security Enabled</span>
+              </div>
+              <h3 className="text-6xl font-extrabold text-white leading-[1.05] tracking-tight">
+                Master your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">royalties</span> with precision.
               </h3>
-              <p className="text-xl text-slate-400 font-medium leading-relaxed max-w-lg">
-                Experience the next generation of royalty tracking, automated reporting, and financial intelligence.
+              <p className="text-xl text-white leading-relaxed font-medium max-w-md opacity-90">
+                The most advanced financial ecosystem for modern labels and digital creators.
               </p>
-            </div>
+              
+              <div className="pt-4 flex items-center gap-6">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="w-12 h-12 rounded-full border-4 border-[#0F172A] bg-slate-800 flex items-center justify-center overflow-hidden">
+                      <img src={`https://i.pravatar.cc/100?img=${i+20}`} alt="User" />
+                    </div>
+                  ))}
+                </div>
+                <div className="text-sm">
+                  <p className="text-white font-bold">500+ Global Labels</p>
+                  <p className="text-white opacity-70 font-medium">Trust Digitalsight daily</p>
+                </div>
+              </div>
+            </motion.div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               {[
-                { icon: Globe, label: 'Global Reach', desc: 'Multi-currency support' },
-                { icon: PieChart, label: 'Smart Analytics', desc: 'Real-time visualization' },
-                { icon: Activity, label: 'Live Tracking', desc: 'Instant transaction updates' },
-                { icon: Shield, label: 'Bank-Grade Security', desc: 'Enterprise data protection' },
+                { icon: Activity, title: 'Real-time Analytics', desc: 'Instant insights into your streaming performance.', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                { icon: PieChart, title: 'Smart Distribution', desc: 'Automated revenue sharing and global payouts.', color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
+                { icon: Globe, title: 'Global Reach', desc: 'Manage assets across 150+ territories seamlessly.', color: 'text-emerald-400', bg: 'bg-emerald-500/10' }
               ].map((item, i) => (
-                <motion.div
+                <motion.div 
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 + (i * 0.1) }}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 rounded-none hover:bg-white/10 transition-colors"
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + (i * 0.1), duration: 0.6 }}
+                  whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.08)' }}
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[32px] flex items-start gap-6 transition-all cursor-default"
                 >
-                  <div className="w-10 h-10 bg-indigo-500/20 rounded-none flex items-center justify-center text-indigo-400 mb-3">
-                    <item.icon size={20} />
+                  <div className={`w-14 h-14 ${item.bg} ${item.color} rounded-2xl flex items-center justify-center shrink-0 shadow-lg`}>
+                    <item.icon size={28} />
                   </div>
-                  <h4 className="text-white font-bold text-sm mb-1">{item.label}</h4>
-                  <p className="text-xs text-slate-400 font-medium">{item.desc}</p>
+                  <div>
+                    <h4 className="text-white font-bold text-xl mb-1">{item.title}</h4>
+                    <p className="text-white opacity-80 text-sm font-medium leading-relaxed">{item.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

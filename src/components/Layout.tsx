@@ -71,23 +71,22 @@ export default function Layout() {
   const links = (user.role === 'Owner' || user.role === 'Employee') ? adminLinks : clientLinks;
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] font-sans text-slate-900 overflow-hidden">
+    <div className="flex h-screen bg-white font-sans text-[#3c4043] overflow-hidden">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col relative z-20">
-        <div className="p-6">
+      <aside className="hidden lg:flex w-64 bg-white border-r border-[#dadce0] flex-col relative z-20">
+        <div className="p-6 mb-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand-500 rounded-none flex items-center justify-center shadow-lg shadow-brand-500/20">
-              <DollarSign className="text-white" size={20} />
+            <div className="w-8 h-8 bg-[#1a73e8] rounded flex items-center justify-center">
+              <DollarSign className="text-white" size={18} />
             </div>
             <div>
-              <h1 className="text-lg font-extrabold tracking-tight text-slate-900">Digitalsight</h1>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded-none">Financials</span>
+              <h1 className="text-lg font-medium text-[#202124] leading-none">Digitalsight</h1>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#70757a] mt-1 block">Financials</span>
             </div>
           </div>
         </div>
         
-        <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-          <p className="px-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3">Main Menu</p>
+        <nav className="flex-1 px-2 space-y-0.5 overflow-y-auto">
           {links.map((link) => {
             const Icon = link.icon;
             const isActive = location.pathname === link.path;
@@ -95,55 +94,53 @@ export default function Layout() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-none transition-all duration-200 group text-sm ${
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-r-full transition-all duration-200 group text-sm font-medium ${
                   isActive 
-                    ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20 font-semibold' 
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-[#e8f0fe] text-[#1a73e8]' 
+                    : 'text-[#5f6368] hover:bg-[#f1f3f4] hover:text-[#202124]'
                 }`}
               >
-                <Icon size={18} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-brand-500 transition-colors'} />
+                <Icon size={20} className={isActive ? 'text-[#1a73e8]' : 'text-[#5f6368] group-hover:text-[#202124]'} />
                 {link.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 mt-auto">
-          <div className="bg-slate-50 rounded-none p-3 border border-slate-100">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-none bg-white shadow-sm flex items-center justify-center text-brand-600 font-bold border border-slate-100 text-xs">
-                {user.name.charAt(0)}
-              </div>
-              <div className="overflow-hidden">
-                <p className="text-xs font-bold text-slate-900 truncate">{user.name}</p>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">{user.role}</p>
-              </div>
+        <div className="p-4 mt-auto border-t border-[#f1f3f4]">
+          <div className="flex items-center gap-3 px-2 mb-4">
+            <div className="w-8 h-8 rounded-full bg-[#f1f3f4] flex items-center justify-center text-[#5f6368] font-medium text-sm border border-[#dadce0]">
+              {user.name.charAt(0)}
             </div>
-            <button
-              onClick={logout}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-red-500 bg-red-50 rounded-none hover:bg-red-100 transition-all modern-button"
-            >
-              <LogOut size={14} />
-              Sign Out
-            </button>
+            <div className="overflow-hidden">
+              <p className="text-sm font-medium text-[#202124] truncate">{user.name}</p>
+              <p className="text-[11px] text-[#70757a]">{user.role}</p>
+            </div>
           </div>
+          <button
+            onClick={logout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-[#5f6368] bg-white border border-[#dadce0] rounded hover:bg-[#f8f9fa] transition-all"
+          >
+            <LogOut size={14} />
+            Sign Out
+          </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-10">
+        <header className="h-16 bg-white border-b border-[#dadce0] px-8 flex items-center justify-between sticky top-0 z-10">
           <div className="flex items-center gap-4 lg:hidden">
-            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-600 hover:bg-slate-100 rounded-none">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-[#5f6368] hover:bg-[#f1f3f4] rounded-full">
               <Menu size={20} />
             </button>
-            <h1 className="text-base font-bold">Digitalsight</h1>
+            <h1 className="text-base font-medium text-[#202124]">Digitalsight</h1>
           </div>
 
-          <div className="hidden md:flex items-center bg-slate-100 rounded-none px-3 py-1.5 w-80 border border-slate-200/50 focus-within:ring-2 focus-within:ring-brand-500/20 transition-all">
-            <Search size={16} className="text-slate-400" />
-            <input type="text" placeholder="Search transactions..." className="bg-transparent border-none focus:ring-0 text-xs w-full ml-2 text-slate-600 placeholder:text-slate-400" />
+          <div className="hidden md:flex items-center bg-[#f1f3f4] rounded-lg px-4 py-2 w-[500px] border border-transparent focus-within:bg-white focus-within:border-[#dadce0] transition-all">
+            <Search size={18} className="text-[#5f6368]" />
+            <input type="text" placeholder="Search reports, transactions..." className="bg-transparent border-none focus:ring-0 text-sm w-full ml-3 text-[#202124] placeholder:text-[#70757a]" />
           </div>
 
           <div className="flex items-center gap-2">
@@ -153,11 +150,11 @@ export default function Layout() {
                   setIsNotificationOpen(!isNotificationOpen);
                   if (!isNotificationOpen && unreadCount > 0) markAsRead();
                 }}
-                className={`p-2 rounded-none transition-colors relative ${isNotificationOpen ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-100'}`}
+                className={`p-2 rounded-full transition-colors relative ${isNotificationOpen ? 'bg-[#f1f3f4] text-[#202124]' : 'text-[#5f6368] hover:bg-[#f1f3f4]'}`}
               >
-                <Bell size={18} />
+                <Bell size={20} />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-none border-2 border-white"></span>
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-[#d93025] rounded-full border border-white"></span>
                 )}
               </button>
 
@@ -166,15 +163,15 @@ export default function Layout() {
                   <>
                     <div className="fixed inset-0 z-30" onClick={() => setIsNotificationOpen(false)}></div>
                     <motion.div 
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-2 w-80 bg-white rounded-none shadow-2xl border border-slate-200 z-40 overflow-hidden"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-[#dadce0] z-40 overflow-hidden"
                     >
-                      <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
-                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Notifications</h3>
+                      <div className="p-4 border-b border-[#f1f3f4] flex justify-between items-center bg-[#f8f9fa]">
+                        <h3 className="text-xs font-medium text-[#202124] uppercase tracking-wider">Notifications</h3>
                         {unreadCount > 0 && (
-                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-none">
+                          <span className="text-[10px] font-medium text-white bg-[#d93025] px-2 py-0.5 rounded-full">
                             {unreadCount} New
                           </span>
                         )}
@@ -182,49 +179,35 @@ export default function Layout() {
                       <div className="max-h-[400px] overflow-y-auto">
                         {notifications.length > 0 ? (
                           notifications.map((notif) => (
-                            <div key={notif.id} className={`p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors flex gap-3 ${!notif.is_read ? 'bg-brand-50/30' : ''}`}>
-                              <div className={`w-8 h-8 rounded-none flex items-center justify-center shrink-0 ${notif.type === 'revenue' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'}`}>
+                            <div key={notif.id} className={`p-4 border-b border-[#f1f3f4] last:border-0 hover:bg-[#f8f9fa] transition-colors flex gap-3 ${!notif.is_read ? 'bg-[#e8f0fe]/30' : ''}`}>
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.type === 'revenue' ? 'bg-[#e6f4ea] text-[#1e8e3e]' : 'bg-[#e8f0fe] text-[#1a73e8]'}`}>
                                 {notif.type === 'revenue' ? <DollarSign size={16} /> : <Bell size={16} />}
                               </div>
                               <div>
-                                <p className="text-xs font-medium text-slate-900 leading-relaxed">{notif.message}</p>
-                                <p className="text-[10px] text-slate-400 mt-1">{formatDate(notif.created_at)}</p>
+                                <p className="text-xs font-normal text-[#3c4043] leading-relaxed">{notif.message}</p>
+                                <p className="text-[10px] text-[#70757a] mt-1">{formatDate(notif.created_at)}</p>
                               </div>
                             </div>
                           ))
                         ) : (
-                          <div className="p-8 text-center">
-                            <div className="w-12 h-12 bg-slate-50 rounded-none flex items-center justify-center mx-auto mb-3 text-slate-300">
-                              <CheckCircle2 size={24} />
-                            </div>
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">All caught up!</p>
+                          <div className="p-10 text-center">
+                            <CheckCircle2 size={24} className="mx-auto mb-3 text-[#dadce0]" />
+                            <p className="text-xs font-medium text-[#70757a]">All caught up!</p>
                           </div>
                         )}
                       </div>
-                      {notifications.length > 0 && (
-                        <div className="p-3 bg-slate-50/50 border-t border-slate-50 text-center">
-                          <button className="text-[10px] font-bold text-slate-400 hover:text-slate-600 uppercase tracking-widest">View All Activity</button>
-                        </div>
-                      )}
                     </motion.div>
                   </>
                 )}
               </AnimatePresence>
             </div>
-            <div className="h-6 w-[1px] bg-slate-200 mx-1 hidden sm:block"></div>
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="h-8 w-[1px] bg-[#dadce0] mx-2 hidden sm:block"></div>
+            <div className="hidden sm:flex items-center gap-3 ml-2">
               <div className="text-right">
-                <div className="flex items-center justify-end gap-2">
-                  {user.role === 'Label Admin' && user.revenueShare !== undefined && (
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-none border border-emerald-100">
-                      {user.revenueShare}% Share
-                    </span>
-                  )}
-                  <p className="text-xs font-bold text-slate-900">{user.name}</p>
-                </div>
-                <p className="text-[9px] font-bold text-brand-600 uppercase">{user.currency} Account</p>
+                <p className="text-sm font-medium text-[#202124]">{user.name}</p>
+                <p className="text-[11px] text-[#1a73e8] font-medium">{user.currency} Account</p>
               </div>
-              <div className="w-8 h-8 rounded-none bg-brand-50 flex items-center justify-center text-brand-600 font-bold border border-brand-100 text-xs">
+              <div className="w-8 h-8 rounded-full bg-[#1a73e8] flex items-center justify-center text-white font-medium text-sm">
                 {user.name.charAt(0)}
               </div>
             </div>
@@ -232,49 +215,49 @@ export default function Layout() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-[#F8FAFC]">
+        <main className="flex-1 overflow-y-auto bg-white">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="p-4 lg:p-6 max-w-[1600px] mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            className="p-8 lg:p-12 max-w-[1400px] mx-auto"
           >
             <Outlet />
           </motion.div>
         </main>
 
-        {/* Push Notification Toast */}
+        {/* Push Notification Toast - Flat */}
         <AnimatePresence>
           {latestUnread && !isNotificationOpen && (
             <motion.div
-              initial={{ opacity: 0, x: 100, y: 20 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              className="fixed bottom-6 right-6 z-50 w-80 bg-slate-900 text-white p-4 rounded-none shadow-2xl border border-white/10 flex gap-4 items-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="fixed bottom-8 right-8 z-50 w-80 bg-[#202124] text-white p-4 rounded-lg shadow-xl flex gap-4 items-start"
             >
-              <div className="w-10 h-10 bg-brand-500 rounded-none flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/20">
-                <Bell size={20} className="text-white" />
+              <div className="w-8 h-8 bg-[#1a73e8] rounded flex items-center justify-center shrink-0">
+                <Bell size={16} className="text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-xs font-bold text-white mb-1">New Update</p>
-                <p className="text-[11px] text-slate-300 leading-relaxed mb-3">{latestUnread.message}</p>
-                <div className="flex gap-2">
+                <p className="text-xs font-medium text-white mb-1">New Update</p>
+                <p className="text-[11px] text-[#bdc1c6] leading-relaxed mb-3">{latestUnread.message}</p>
+                <div className="flex gap-3">
                   <button 
                     onClick={() => setIsNotificationOpen(true)}
-                    className="text-[10px] font-bold bg-white text-slate-900 px-3 py-1.5 rounded-none hover:bg-slate-100 transition-all"
+                    className="text-[10px] font-medium text-[#8ab4f8] hover:underline"
                   >
                     View Details
                   </button>
                   <button 
                     onClick={markAsRead}
-                    className="text-[10px] font-bold text-slate-400 hover:text-white px-2 py-1.5 transition-all"
+                    className="text-[10px] font-medium text-[#bdc1c6] hover:text-white"
                   >
                     Dismiss
                   </button>
                 </div>
               </div>
-              <button onClick={markAsRead} className="text-slate-500 hover:text-white transition-colors">
+              <button onClick={markAsRead} className="text-[#70757a] hover:text-white">
                 <X size={16} />
               </button>
             </motion.div>
@@ -291,27 +274,27 @@ export default function Layout() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-[#202124]/40 z-40 lg:hidden"
             />
             <motion.aside
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-80 bg-white z-50 lg:hidden flex flex-col shadow-2xl"
+              transition={{ type: 'tween', duration: 0.2 }}
+              className="fixed inset-y-0 left-0 w-72 bg-white z-50 lg:hidden flex flex-col shadow-xl"
             >
-              <div className="p-5 flex items-center justify-between border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-brand-500 rounded-none flex items-center justify-center">
-                    <DollarSign className="text-white" size={16} />
+              <div className="p-6 flex items-center justify-between border-b border-[#f1f3f4]">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-[#1a73e8] rounded flex items-center justify-center">
+                    <DollarSign className="text-white" size={18} />
                   </div>
-                  <h1 className="text-base font-bold">Digitalsight</h1>
+                  <h1 className="text-lg font-medium text-[#202124]">Digitalsight</h1>
                 </div>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="p-1.5 text-slate-400 hover:bg-slate-100 rounded-none">
-                  <X size={18} />
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-[#5f6368] hover:bg-[#f1f3f4] rounded-full">
+                  <X size={20} />
                 </button>
               </div>
-              <nav className="flex-1 p-3 space-y-1">
+              <nav className="flex-1 p-2 space-y-0.5">
                 {links.map((link) => {
                   const Icon = link.icon;
                   const isActive = location.pathname === link.path;
@@ -320,13 +303,13 @@ export default function Layout() {
                       key={link.path}
                       to={link.path}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-none transition-all ${
+                      className={`flex items-center gap-3 px-4 py-3 rounded-r-full transition-all ${
                         isActive 
-                          ? 'bg-brand-500 text-white font-semibold shadow-md shadow-brand-500/15' 
-                          : 'text-slate-500 hover:bg-slate-50'
+                          ? 'bg-[#e8f0fe] text-[#1a73e8]' 
+                          : 'text-[#5f6368] hover:bg-[#f1f3f4]'
                       }`}
                     >
-                      <Icon size={18} />
+                      <Icon size={20} />
                       {link.label}
                     </Link>
                   );
