@@ -64,10 +64,10 @@ export default function WithdrawalsPage() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+            className="bg-white p-8 rounded-none shadow-sm border border-slate-200"
           >
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-4 bg-brand-50 text-brand-600 rounded-2xl shadow-inner">
+              <div className="p-4 bg-brand-50 text-brand-600 rounded-none shadow-inner">
                 <CreditCard size={24} />
               </div>
               <div>
@@ -102,7 +102,7 @@ export default function WithdrawalsPage() {
                 <motion.div 
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${message.includes('Insufficient') ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-brand-50 text-brand-600 border border-brand-100'}`}
+                  className={`p-3 rounded-none text-xs font-bold flex items-center gap-2 ${message.includes('Insufficient') ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-brand-50 text-brand-600 border border-brand-100'}`}
                 >
                   {message.includes('Insufficient') ? <AlertCircle size={16} /> : <CheckCircle size={16} />}
                   {message}
@@ -111,7 +111,7 @@ export default function WithdrawalsPage() {
 
               <button
                 type="submit"
-                className="w-full bg-slate-900 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 flex items-center justify-center gap-2 group modern-button"
+                className="w-full bg-slate-900 text-white font-bold py-3.5 rounded-none hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 flex items-center justify-center gap-2 group modern-button"
               >
                 Initiate Transfer
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -119,21 +119,21 @@ export default function WithdrawalsPage() {
             </form>
           </motion.div>
 
-          <div className="bg-brand-50 p-6 rounded-2xl border border-brand-100">
+          <div className="bg-brand-50 p-6 rounded-none border border-brand-100">
             <h4 className="text-brand-800 font-bold text-sm mb-1 flex items-center gap-2">
               <AlertCircle size={16} />
               Payout Policy
             </h4>
             <p className="text-brand-700/80 text-xs font-medium leading-relaxed">
-              Withdrawal requests are typically processed within 2-3 business days. Minimum withdrawal amount is $50.00.
+              Withdrawal requests are typically processed within 2-3 business days. Minimum withdrawal amount is 100 INR.
             </p>
           </div>
         </div>
 
-        <div className="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col">
+        <div className="lg:col-span-3 bg-white rounded-none shadow-sm border border-slate-200 flex flex-col">
           <div className="p-6 border-b border-slate-50 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400">
+              <div className="w-8 h-8 bg-slate-50 rounded-none flex items-center justify-center text-slate-400">
                 <History size={18} />
               </div>
               <h3 className="text-lg font-extrabold text-slate-900">Transfer History</h3>
@@ -155,7 +155,7 @@ export default function WithdrawalsPage() {
                     <td className="px-6 py-4 text-slate-600 font-bold">{new Date(item.request_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</td>
                     <td className="px-6 py-4 font-extrabold text-slate-900 text-base">{formatCurrency(item.amount, user?.currency)}</td>
                     <td className="px-6 py-4 text-right">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[9px] font-extrabold uppercase tracking-widest ${
                         item.status === 'approved' ? 'bg-emerald-100 text-emerald-700' :
                         item.status === 'rejected' ? 'bg-red-100 text-red-700' :
                         'bg-amber-100 text-amber-700'

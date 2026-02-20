@@ -28,7 +28,7 @@ preview_bucket_name = "financials"
 JWT_SECRET = "your-secret-key-change-in-production"
 
 # Non-secret config (safe to commit)
-TURNSTILE_SITE_KEY = "0x4AAAAAACMuYChp5BSVe9nG"
+TURNSTILE_SITE_KEY = "0x4AAAAAACfyDL5KmcGEPgJZ"
 R2_PUBLIC_DOMAIN = "https://pub-798e0975721b49129b87ccda2a7a6bc0.r2.dev"
 R2_BUCKET_NAME = "financials"
 R2_ACCOUNT_ID = "b10d24f08c0674b682cefebd178a45cb"

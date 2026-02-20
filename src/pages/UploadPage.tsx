@@ -102,16 +102,16 @@ export default function UploadPage() {
           <p className="text-slate-500 mt-1 text-sm font-medium">Upload royalty records manually or via bulk Excel files.</p>
         </div>
         
-        <div className="flex bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+        <div className="flex bg-white p-1 rounded-none border border-slate-200 shadow-sm">
           <button 
             onClick={() => setIsBulk(false)}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${!isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`px-4 py-1.5 rounded-none text-xs font-bold transition-all ${!isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
           >
             Single Entry
           </button>
           <button 
             onClick={() => setIsBulk(true)}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`px-4 py-1.5 rounded-none text-xs font-bold transition-all ${isBulk ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' : 'text-slate-400 hover:text-slate-600'}`}
           >
             Bulk Excel
           </button>
@@ -125,11 +125,11 @@ export default function UploadPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+            className="bg-white p-8 rounded-none shadow-sm border border-slate-200"
           >
             <form onSubmit={handleSingleSubmit} className="space-y-6">
               {message && (
-                <div className="bg-brand-50 text-brand-600 p-3 rounded-xl flex items-center gap-2 text-sm font-bold border border-brand-100">
+                <div className="bg-brand-50 text-brand-600 p-3 rounded-none flex items-center gap-2 text-sm font-bold border border-brand-100">
                   <CheckCircle size={18} />
                   {message}
                 </div>
@@ -206,7 +206,7 @@ export default function UploadPage() {
 
               <button
                 type="submit"
-                className="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 modern-button"
+                className="w-full bg-slate-900 text-white font-bold py-3 rounded-none hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 modern-button"
               >
                 <Database size={18} />
                 Commit Record
@@ -221,8 +221,8 @@ export default function UploadPage() {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-6"
           >
-            <div className="bg-white p-10 rounded-2xl shadow-sm border border-slate-200 border-dashed border-2 flex flex-col items-center justify-center text-center group hover:border-brand-500/50 transition-colors">
-              <div className="w-16 h-16 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 mb-4 group-hover:scale-105 transition-transform">
+            <div className="bg-white p-10 rounded-none shadow-sm border border-slate-200 border-dashed border-2 flex flex-col items-center justify-center text-center group hover:border-brand-500/50 transition-colors">
+              <div className="w-16 h-16 bg-brand-50 rounded-none flex items-center justify-center text-brand-600 mb-4 group-hover:scale-105 transition-transform">
                 <FileUp size={32} />
               </div>
               <h3 className="text-xl font-extrabold text-slate-900">Upload Spreadsheet</h3>
@@ -239,7 +239,7 @@ export default function UploadPage() {
               />
               <label 
                 htmlFor="excel-upload"
-                className="mt-6 bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 cursor-pointer transition-all shadow-lg shadow-slate-900/10 modern-button"
+                className="mt-6 bg-slate-900 text-white px-8 py-3 rounded-none font-bold hover:bg-slate-800 cursor-pointer transition-all shadow-lg shadow-slate-900/10 modern-button"
               >
                 Select File
               </label>
@@ -249,7 +249,7 @@ export default function UploadPage() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+                className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
               >
                 <div className="p-6 border-b border-slate-100 flex justify-between items-center">
                   <div>
@@ -259,13 +259,13 @@ export default function UploadPage() {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => setBulkData([])}
-                      className="p-2 text-red-500 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                      className="p-2 text-red-500 bg-red-50 rounded-none hover:bg-red-100 transition-colors"
                     >
                       <Trash2 size={18} />
                     </button>
                     <button 
                       onClick={handleBulkSubmit}
-                      className="bg-brand-500 text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-brand-600 transition-all shadow-md shadow-brand-500/20"
+                      className="bg-brand-500 text-white px-6 py-2 rounded-none text-sm font-bold hover:bg-brand-600 transition-all shadow-md shadow-brand-500/20"
                     >
                       Process & Upload
                     </button>

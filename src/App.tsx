@@ -14,6 +14,7 @@ import FinancialReportsPage from './pages/FinancialReportsPage';
 import WithdrawalsPage from './pages/WithdrawalsPage';
 import UploadPage from './pages/UploadPage';
 import SettingsPage from './pages/SettingsPage';
+import AdminNotificationsPage from './pages/AdminNotificationsPage';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="admin/clients" element={<AdminDashboard />} />
             <Route path="admin/withdrawals" element={<AdminDashboard />} />
             <Route path="admin/upload" element={<UploadPage />} />
+            <Route path="admin/notifications" element={<AdminNotificationsPage />} />
           </Route>
         </Routes>
       </AuthProvider>

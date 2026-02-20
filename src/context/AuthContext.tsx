@@ -35,8 +35,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch('/api/me');
       if (res.ok) {
         const userData = (await res.json()) as any;
-        setUser(userData as User);
-        localStorage.setItem('ds_user', JSON.stringify(userData));
+        if (userData.authenticated === false) {
+          setUser(null);
+          localStorage.removeItem('ds_user');
+        } else {
+          setUser(userData as User);
+          localStorage.setItem('ds_user', JSON.stringify(userData));
+        }
       } else {
         setUser(null);
         localStorage.removeItem('ds_user');

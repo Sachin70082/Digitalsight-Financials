@@ -9,6 +9,7 @@ type Env = {
     ASSETS: Fetcher;
     JWT_SECRET: string;
     TURNSTILE_SITE_KEY: string;
+    TURNSTILE_SECRET_KEY: string;
     R2_PUBLIC_DOMAIN: string;
     R2_BUCKET_NAME: string;
     R2_ACCOUNT_ID: string;
@@ -23,10 +24,15 @@ type Env = {
 const app = new Hono<Env>();
 
 const authMiddleware = async (c: any, next: any) => {
+  const isMeEndpoint = c.req.path === '/api/me';
   const token = getCookie(c, 'token');
   console.log('[authMiddleware] Token from cookie:', token ? 'Present' : 'Missing');
   
   if (!token) {
+    if (isMeEndpoint) {
+      c.set('user', null);
+      return await next();
+    }
     return c.json({ error: 'Unauthorized' }, 401);
   }
   try {
@@ -42,6 +48,10 @@ const authMiddleware = async (c: any, next: any) => {
 
     if (!dbUser?.id) {
       console.log('[authMiddleware] User not found in DB for ID:', userId);
+      if (isMeEndpoint) {
+        c.set('user', null);
+        return await next();
+      }
       return c.json({ error: 'Unauthorized' }, 401);
     }
 
@@ -57,6 +67,10 @@ const authMiddleware = async (c: any, next: any) => {
     await next();
   } catch (err: any) {
     console.error('[authMiddleware] JWT Error:', err.message);
+    if (isMeEndpoint) {
+      c.set('user', null);
+      return await next();
+    }
     return c.json({ error: 'Forbidden' }, 403);
   }
 };
@@ -77,6 +91,18 @@ const getLabelForUser = async (db: D1Database, userId: string, email?: string) =
     return null;
   }
 };
+
+// Helper for constant-time string comparison to prevent timing attacks
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
 
 app.get('/api/health', async (c) => {
   try {
@@ -102,11 +128,64 @@ app.post('/api/login', async (c) => {
 
   const email = body?.username; // Frontend sends "username" field, but we treat it as email
   const password = body?.password;
+  const turnstileToken = body?.turnstileToken;
+
+  console.log(`[login] Login attempt for email: ${email}, requestId: ${requestId}`);
 
   if (!email || !password) {
     return c.json(
       { success: false, message: 'Email and password are required', requestId },
       400
+    );
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(String(email).trim())) {
+    return c.json(
+      { success: false, message: 'Invalid email format', requestId },
+      400
+    );
+  }
+
+  if (!turnstileToken) {
+    return c.json(
+      { success: false, message: 'Security check required', requestId },
+      400
+    );
+  }
+
+  // Verify Turnstile Token
+  try {
+    const remoteIp = c.req.header('CF-Connecting-IP') || '';
+    console.log(`[login] Starting Turnstile verification for requestId: ${requestId}`);
+    console.log(`[login] Turnstile Token: ${turnstileToken.substring(0, 15)}...`);
+    console.log(`[login] Remote IP: ${remoteIp}`);
+    
+    const formData = new FormData();
+    formData.append('secret', c.env.TURNSTILE_SECRET_KEY);
+    formData.append('response', turnstileToken);
+    formData.append('remoteip', remoteIp);
+
+    const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      body: formData,
+      method: 'POST',
+    });
+
+    const outcome = (await result.json()) as any;
+    console.log(`[login] Turnstile verification outcome for requestId ${requestId}:`, JSON.stringify(outcome));
+    
+    if (!outcome.success) {
+      console.error(`[login] Turnstile verification failed for requestId ${requestId}. Outcome:`, outcome);
+      return c.json(
+        { success: false, message: 'Security check failed. Please try again.', requestId },
+        403
+      );
+    }
+  } catch (err: any) {
+    console.error(`[login] Turnstile Error for requestId ${requestId}:`, err.message);
+    return c.json(
+      { success: false, message: 'Security verification error', requestId },
+      500
     );
   }
 
@@ -132,13 +211,17 @@ app.post('/api/login', async (c) => {
   }
 
   if (!user) {
+    // Add a small artificial delay to mitigate brute-force timing attacks
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
     return c.json({ success: false, message: 'Invalid email or password', requestId }, 401);
   }
 
   // 🔥 Strictly use password_hash column
   const storedPassword = String(user.password_hash || '').trim();
   
-  if (storedPassword !== passwordRaw) {
+  if (!timingSafeEqual(storedPassword, passwordRaw)) {
+    // Add a small artificial delay to mitigate brute-force timing attacks
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
     return c.json(
       { success: false, message: 'Invalid email or password', requestId },
       401
@@ -190,16 +273,20 @@ app.use('/api/*', authMiddleware);
 
 app.get('/api/me', async (c) => {
   const user = c.get('user');
+  if (!user) {
+    return c.json({ authenticated: false }, 200);
+  }
   try {
     const result = await c.env.DB.prepare('SELECT * FROM users WHERE id = ?')
       .bind(user.id)
       .first<any>();
       
-    if (!result?.id) return c.json({ error: 'Unauthorized' }, 401);
+    if (!result?.id) return c.json({ authenticated: false }, 200);
     
     const label = await getLabelForUser(c.env.DB, user.id, result.email);
 
     return c.json({
+      authenticated: true,
       id: result.id,
       email: result.email,
       role: result.role,
@@ -813,6 +900,39 @@ app.put('/api/admin/reports/:id', async (c) => {
     return c.json({ success: true });
   } catch (err: any) {
     console.error('[admin/reports] Update Error:', err.message);
+    return c.json({ success: false, message: err.message }, 500);
+  }
+});
+
+app.get('/api/admin/notifications', async (c) => {
+  const user = c.get('user');
+  const isAdmin = user.role === 'Owner' || user.role === 'Employee' || user.role === 'admin';
+  if (!isAdmin) return c.json({ error: 'Forbidden' }, 403);
+
+  try {
+    const { results } = await c.env.DB.prepare(`
+      SELECT n.*, u.name as client_name, u.email as client_email
+      FROM notifications n
+      LEFT JOIN users u ON CAST(n.user_id AS TEXT) = CAST(u.id AS TEXT)
+      ORDER BY n.created_at DESC
+    `).all<any>();
+    return c.json(results || []);
+  } catch (err: any) {
+    console.error('[admin/notifications] Error:', err.message);
+    return c.json([]);
+  }
+});
+
+app.delete('/api/admin/notifications/:id', async (c) => {
+  const user = c.get('user');
+  const isAdmin = user.role === 'Owner' || user.role === 'Employee' || user.role === 'admin';
+  if (!isAdmin) return c.json({ error: 'Forbidden' }, 403);
+
+  const id = c.req.param('id');
+  try {
+    await c.env.DB.prepare('DELETE FROM notifications WHERE id = ?').bind(id).run();
+    return c.json({ success: true });
+  } catch (err: any) {
     return c.json({ success: false, message: err.message }, 500);
   }
 });

@@ -292,7 +292,7 @@ export default function FinancialReportsPage() {
           <p className="text-slate-500 mt-1 text-sm font-medium">Manage uploads, approvals, and analytics.</p>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-xl hover:bg-slate-50 transition-all text-xs font-bold shadow-sm">
+          <button className="flex items-center gap-2 bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-none hover:bg-slate-50 transition-all text-xs font-bold shadow-sm">
             <Download size={16} />
             Export Data
           </button>
@@ -328,7 +328,7 @@ export default function FinancialReportsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"
+            className="bg-white p-6 rounded-none shadow-sm border border-slate-200"
           >
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -337,11 +337,11 @@ export default function FinancialReportsPage() {
               </div>
               <div className="flex gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-slate-900"></span>
+                  <span className="w-3 h-3 rounded-none bg-slate-900"></span>
                   <span className="text-xs font-bold text-slate-600">Royalties</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-blue-500"></span>
+                  <span className="w-3 h-3 rounded-none bg-blue-500"></span>
                   <span className="text-xs font-bold text-slate-600">Withdrawals</span>
                 </div>
               </div>
@@ -383,7 +383,7 @@ export default function FinancialReportsPage() {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-6"
           >
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div className="bg-white p-8 rounded-none shadow-sm border border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-6">New Royalty Report</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -394,7 +394,7 @@ export default function FinancialReportsPage() {
                     <select 
                       value={selectedClient}
                       onChange={(e) => setSelectedClient(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none appearance-none"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none appearance-none"
                     >
                       <option value="">Select Label</option>
                       {labels.map(label => (
@@ -413,7 +413,7 @@ export default function FinancialReportsPage() {
                         type="date" 
                         value={dateRange.from}
                         onChange={(e) => setDateRange({...dateRange, from: e.target.value})}
-                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
                       />
                     </div>
                     <div className="relative flex-1">
@@ -422,7 +422,7 @@ export default function FinancialReportsPage() {
                         type="date" 
                         value={dateRange.to}
                         onChange={(e) => setDateRange({...dateRange, to: e.target.value})}
-                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                        className="w-full pl-10 pr-2 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
                       />
                     </div>
                   </div>
@@ -438,7 +438,7 @@ export default function FinancialReportsPage() {
                       value={totalRevenue}
                       onChange={(e) => setTotalRevenue(e.target.value)}
                       placeholder="0.00"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-none text-sm font-medium focus:ring-2 focus:ring-slate-900 outline-none"
                     />
                   </div>
                 </div>
@@ -456,7 +456,7 @@ export default function FinancialReportsPage() {
                     />
                     <label 
                       htmlFor="report-upload"
-                      className={`w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+                      className={`w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed rounded-none cursor-pointer transition-all ${
                         excelFile 
                           ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
                           : 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300'
@@ -473,7 +473,7 @@ export default function FinancialReportsPage() {
               </div>
 
               {excelData.length > 0 && (
-                <div className="border border-slate-200 rounded-xl overflow-hidden mb-6">
+                <div className="border border-slate-200 rounded-none overflow-hidden mb-6">
                   <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
                     <span className="text-xs font-bold text-slate-500 uppercase">Preview ({excelData.length} rows)</span>
                   </div>
@@ -509,7 +509,7 @@ export default function FinancialReportsPage() {
                 <button 
                   onClick={processReportUpload}
                   disabled={isUploading || !excelFile}
-                  className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-slate-900 text-white px-6 py-3 rounded-none font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isUploading ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />}
                   Submit Report
@@ -518,7 +518,7 @@ export default function FinancialReportsPage() {
             </div>
 
             {/* Report History Table */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden">
               <div className="p-6 border-b border-slate-50 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-slate-900">Report History</h3>
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{allReports.length} Total Reports</span>
@@ -549,7 +549,7 @@ export default function FinancialReportsPage() {
                               <select 
                                 value={editFormData.user_id}
                                 onChange={(e) => setEditFormData({...editFormData, user_id: e.target.value})}
-                                className="w-full p-1 text-xs border rounded"
+                                className="w-full p-1 text-xs border rounded-none"
                               >
                                 {labels.map(label => (
                                   <option key={label.id} value={label.owner_id}>{label.name}</option>
@@ -569,13 +569,13 @@ export default function FinancialReportsPage() {
                                   type="date" 
                                   value={editFormData.start_date}
                                   onChange={(e) => setEditFormData({...editFormData, start_date: e.target.value})}
-                                  className="w-full p-1 text-[10px] border rounded"
+                                  className="w-full p-1 text-[10px] border rounded-none"
                                 />
                                 <input 
                                   type="date" 
                                   value={editFormData.end_date}
                                   onChange={(e) => setEditFormData({...editFormData, end_date: e.target.value})}
-                                  className="w-full p-1 text-[10px] border rounded"
+                                  className="w-full p-1 text-[10px] border rounded-none"
                                 />
                               </div>
                             ) : (
@@ -589,7 +589,7 @@ export default function FinancialReportsPage() {
                                 step="0.01"
                                 value={editFormData.total_revenue}
                                 onChange={(e) => setEditFormData({...editFormData, total_revenue: e.target.value})}
-                                className="w-full p-1 text-xs border rounded"
+                                className="w-full p-1 text-xs border rounded-none"
                               />
                             ) : (
                               <div className="flex flex-col">
@@ -614,14 +614,14 @@ export default function FinancialReportsPage() {
                                 <>
                                   <button 
                                     onClick={handleSaveEdit}
-                                    className="p-2 text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-all"
+                                    className="p-2 text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-none transition-all"
                                     title="Save Changes"
                                   >
                                     <Save size={16} />
                                   </button>
                                   <button 
                                     onClick={() => setEditingReportId(null)}
-                                    className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg transition-all"
+                                    className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-none transition-all"
                                     title="Cancel"
                                   >
                                     <X size={16} />
@@ -631,14 +631,14 @@ export default function FinancialReportsPage() {
                                 <>
                                   <button 
                                     onClick={() => handleEditReport(report)}
-                                    className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                    className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-none transition-all"
                                     title="Edit Report"
                                   >
                                     <Edit2 size={16} />
                                   </button>
                                   <button 
                                     onClick={() => handleDeleteReport(report.id)}
-                                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-none transition-all"
                                     title="Delete Report"
                                   >
                                     <X size={16} />
@@ -670,15 +670,15 @@ export default function FinancialReportsPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
           >
             <div className="p-6 border-b border-slate-50 flex justify-between items-center">
               <h3 className="text-lg font-bold text-slate-900">Pending Approvals</h3>
               <div className="flex gap-2">
-                <button className="p-2 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
+                <button className="p-2 hover:bg-slate-50 rounded-none text-slate-400 hover:text-slate-900 transition-colors">
                   <Filter size={18} />
                 </button>
-                <button className="p-2 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
+                <button className="p-2 hover:bg-slate-50 rounded-none text-slate-400 hover:text-slate-900 transition-colors">
                   <Search size={18} />
                 </button>
               </div>
@@ -699,7 +699,7 @@ export default function FinancialReportsPage() {
                     <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-[10px]">
+                          <div className="w-8 h-8 rounded-none bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-[10px]">
                             {item.user_name?.charAt(0) || '?'}
                           </div>
                           <div>
@@ -711,12 +711,12 @@ export default function FinancialReportsPage() {
                       <td className="px-6 py-4 text-slate-500 font-medium">{formatDate(item.request_date)}</td>
                       <td className="px-6 py-4 font-extrabold text-slate-900">{formatCurrency(item.amount)}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wide ${
                           item.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
                           item.status === 'rejected' ? 'bg-red-50 text-red-600 border border-red-100' :
                           'bg-amber-50 text-amber-600 border border-amber-100'
                         }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${
+                          <span className={`w-1.5 h-1.5 rounded-none ${
                             item.status === 'approved' ? 'bg-emerald-500' :
                             item.status === 'rejected' ? 'bg-red-500' :
                             'bg-amber-500'
@@ -730,13 +730,13 @@ export default function FinancialReportsPage() {
                             <>
                               <button 
                                 onClick={() => handleStatusUpdate(item.id, 'approved')}
-                                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
+                                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-none hover:bg-emerald-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
                               >
                                 <Check size={12} /> Approve
                               </button>
                               <button 
                                 onClick={() => handleStatusUpdate(item.id, 'rejected')}
-                                className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
+                                className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-none hover:bg-red-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-wide"
                               >
                                 <X size={12} /> Reject
                               </button>
@@ -746,7 +746,7 @@ export default function FinancialReportsPage() {
                           )}
                           <button 
                             onClick={() => handleDeleteWithdrawal(item.id)}
-                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-none transition-all"
                             title="Delete Request"
                           >
                             <X size={14} />

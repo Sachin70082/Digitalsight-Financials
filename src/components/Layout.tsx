@@ -58,6 +58,7 @@ export default function Layout() {
     { icon: LayoutDashboard, label: 'Overview', path: '/admin' },
     { icon: FileText, label: 'Financial Reports', path: '/admin/reports' },
     { icon: Users, label: 'Client Management', path: '/admin/clients' },
+    { icon: Bell, label: 'Notifications', path: '/admin/notifications' },
   ];
 
   const clientLinks = [
@@ -75,12 +76,12 @@ export default function Layout() {
       <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col relative z-20">
         <div className="p-6">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
+            <div className="w-9 h-9 bg-brand-500 rounded-none flex items-center justify-center shadow-lg shadow-brand-500/20">
               <DollarSign className="text-white" size={20} />
             </div>
             <div>
               <h1 className="text-lg font-extrabold tracking-tight text-slate-900">Digitalsight</h1>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded">Financials</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded-none">Financials</span>
             </div>
           </div>
         </div>
@@ -94,7 +95,7 @@ export default function Layout() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group text-sm ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-none transition-all duration-200 group text-sm ${
                   isActive 
                     ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20 font-semibold' 
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
@@ -108,9 +109,9 @@ export default function Layout() {
         </nav>
 
         <div className="p-4 mt-auto">
-          <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100">
+          <div className="bg-slate-50 rounded-none p-3 border border-slate-100">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-brand-600 font-bold border border-slate-100 text-xs">
+              <div className="w-8 h-8 rounded-none bg-white shadow-sm flex items-center justify-center text-brand-600 font-bold border border-slate-100 text-xs">
                 {user.name.charAt(0)}
               </div>
               <div className="overflow-hidden">
@@ -120,7 +121,7 @@ export default function Layout() {
             </div>
             <button
               onClick={logout}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-red-500 bg-red-50 rounded-lg hover:bg-red-100 transition-all modern-button"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-red-500 bg-red-50 rounded-none hover:bg-red-100 transition-all modern-button"
             >
               <LogOut size={14} />
               Sign Out
@@ -134,13 +135,13 @@ export default function Layout() {
         {/* Header */}
         <header className="h-14 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-10">
           <div className="flex items-center gap-4 lg:hidden">
-            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-600 hover:bg-slate-100 rounded-xl">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-600 hover:bg-slate-100 rounded-none">
               <Menu size={20} />
             </button>
             <h1 className="text-base font-bold">Digitalsight</h1>
           </div>
 
-          <div className="hidden md:flex items-center bg-slate-100 rounded-xl px-3 py-1.5 w-80 border border-slate-200/50 focus-within:ring-2 focus-within:ring-brand-500/20 transition-all">
+          <div className="hidden md:flex items-center bg-slate-100 rounded-none px-3 py-1.5 w-80 border border-slate-200/50 focus-within:ring-2 focus-within:ring-brand-500/20 transition-all">
             <Search size={16} className="text-slate-400" />
             <input type="text" placeholder="Search transactions..." className="bg-transparent border-none focus:ring-0 text-xs w-full ml-2 text-slate-600 placeholder:text-slate-400" />
           </div>
@@ -152,11 +153,11 @@ export default function Layout() {
                   setIsNotificationOpen(!isNotificationOpen);
                   if (!isNotificationOpen && unreadCount > 0) markAsRead();
                 }}
-                className={`p-2 rounded-xl transition-colors relative ${isNotificationOpen ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-100'}`}
+                className={`p-2 rounded-none transition-colors relative ${isNotificationOpen ? 'bg-slate-100 text-slate-900' : 'text-slate-500 hover:bg-slate-100'}`}
               >
                 <Bell size={18} />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-none border-2 border-white"></span>
                 )}
               </button>
 
@@ -168,12 +169,12 @@ export default function Layout() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 z-40 overflow-hidden"
+                      className="absolute right-0 mt-2 w-80 bg-white rounded-none shadow-2xl border border-slate-200 z-40 overflow-hidden"
                     >
                       <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Notifications</h3>
                         {unreadCount > 0 && (
-                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-none">
                             {unreadCount} New
                           </span>
                         )}
@@ -182,7 +183,7 @@ export default function Layout() {
                         {notifications.length > 0 ? (
                           notifications.map((notif) => (
                             <div key={notif.id} className={`p-4 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors flex gap-3 ${!notif.is_read ? 'bg-brand-50/30' : ''}`}>
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${notif.type === 'revenue' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'}`}>
+                              <div className={`w-8 h-8 rounded-none flex items-center justify-center shrink-0 ${notif.type === 'revenue' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'}`}>
                                 {notif.type === 'revenue' ? <DollarSign size={16} /> : <Bell size={16} />}
                               </div>
                               <div>
@@ -193,7 +194,7 @@ export default function Layout() {
                           ))
                         ) : (
                           <div className="p-8 text-center">
-                            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-300">
+                            <div className="w-12 h-12 bg-slate-50 rounded-none flex items-center justify-center mx-auto mb-3 text-slate-300">
                               <CheckCircle2 size={24} />
                             </div>
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">All caught up!</p>
@@ -215,7 +216,7 @@ export default function Layout() {
               <div className="text-right">
                 <div className="flex items-center justify-end gap-2">
                   {user.role === 'Label Admin' && user.revenueShare !== undefined && (
-                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-100">
+                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-none border border-emerald-100">
                       {user.revenueShare}% Share
                     </span>
                   )}
@@ -223,7 +224,7 @@ export default function Layout() {
                 </div>
                 <p className="text-[9px] font-bold text-brand-600 uppercase">{user.currency} Account</p>
               </div>
-              <div className="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center text-brand-600 font-bold border border-brand-100 text-xs">
+              <div className="w-8 h-8 rounded-none bg-brand-50 flex items-center justify-center text-brand-600 font-bold border border-brand-100 text-xs">
                 {user.name.charAt(0)}
               </div>
             </div>
@@ -250,9 +251,9 @@ export default function Layout() {
               initial={{ opacity: 0, x: 100, y: 20 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
               exit={{ opacity: 0, x: 100 }}
-              className="fixed bottom-6 right-6 z-50 w-80 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-white/10 flex gap-4 items-start"
+              className="fixed bottom-6 right-6 z-50 w-80 bg-slate-900 text-white p-4 rounded-none shadow-2xl border border-white/10 flex gap-4 items-start"
             >
-              <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/20">
+              <div className="w-10 h-10 bg-brand-500 rounded-none flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/20">
                 <Bell size={20} className="text-white" />
               </div>
               <div className="flex-1">
@@ -261,7 +262,7 @@ export default function Layout() {
                 <div className="flex gap-2">
                   <button 
                     onClick={() => setIsNotificationOpen(true)}
-                    className="text-[10px] font-bold bg-white text-slate-900 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-all"
+                    className="text-[10px] font-bold bg-white text-slate-900 px-3 py-1.5 rounded-none hover:bg-slate-100 transition-all"
                   >
                     View Details
                   </button>
@@ -301,12 +302,12 @@ export default function Layout() {
             >
               <div className="p-5 flex items-center justify-between border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center">
+                  <div className="w-7 h-7 bg-brand-500 rounded-none flex items-center justify-center">
                     <DollarSign className="text-white" size={16} />
                   </div>
                   <h1 className="text-base font-bold">Digitalsight</h1>
                 </div>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="p-1.5 text-slate-400 hover:bg-slate-100 rounded-lg">
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-1.5 text-slate-400 hover:bg-slate-100 rounded-none">
                   <X size={18} />
                 </button>
               </div>
@@ -319,7 +320,7 @@ export default function Layout() {
                       key={link.path}
                       to={link.path}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-none transition-all ${
                         isActive 
                           ? 'bg-brand-500 text-white font-semibold shadow-md shadow-brand-500/15' 
                           : 'text-slate-500 hover:bg-slate-50'

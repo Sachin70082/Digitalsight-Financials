@@ -1,18 +1,91 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { Lock, User, ArrowRight, ShieldCheck, DollarSign, Globe, PieChart, Activity, Shield, Loader2 } from 'lucide-react';
+
+declare global {
+  interface Window {
+    turnstile: any;
+  }
+}
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
   const { login } = useAuth();
+
+  useEffect(() => {
+    let widgetId: string | undefined;
+
+    const renderTurnstile = () => {
+      if (window.turnstile && turnstileRef.current) {
+        try {
+          widgetId = window.turnstile.render(turnstileRef.current, {
+            sitekey: '0x4AAAAAACfyDL5KmcGEPgJZ',
+            callback: (token: string) => {
+              setTurnstileToken(token);
+              setError('');
+            },
+            'expired-callback': () => {
+              setTurnstileToken(null);
+              setError('Security check expired. Please verify again.');
+            },
+            'error-callback': () => {
+              setTurnstileToken(null);
+              setError('Security check failed. Please try again.');
+            },
+          });
+        } catch (e) {
+          console.error('Turnstile render error:', e);
+        }
+      }
+    };
+
+    if (window.turnstile) {
+      renderTurnstile();
+    } else {
+      (window as any).onloadTurnstileCallback = renderTurnstile;
+      
+      if (!document.querySelector('script[src*="turnstile/v0/api.js"]')) {
+        const script = document.createElement('script');
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    }
+
+    return () => {
+      if (widgetId && window.turnstile) {
+        window.turnstile.remove(widgetId);
+      }
+      delete (window as any).onloadTurnstileCallback;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username.trim())) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (!password.trim()) {
+      setError('Please enter your password.');
+      return;
+    }
+
+    if (!turnstileToken) {
+      setError('Please complete the security check.');
+      return;
+    }
     
     setError('');
     setIsLoading(true);
@@ -21,7 +94,11 @@ export default function LoginPage() {
       const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username.trim(), password: password.trim() }),
+        body: JSON.stringify({ 
+          username: username.trim(), 
+          password: password.trim(),
+          turnstileToken 
+        }),
       });
       
       const data = (await res.json()) as any;
@@ -31,10 +108,19 @@ export default function LoginPage() {
       } else {
         setError(data?.message || 'Invalid credentials provided');
         setIsLoading(false);
+        // Reset turnstile on failure
+        if (window.turnstile) {
+          window.turnstile.reset();
+          setTurnstileToken(null);
+        }
       }
     } catch (err) {
       setError('Connection error. Please check your network.');
       setIsLoading(false);
+      if (window.turnstile) {
+        window.turnstile.reset();
+        setTurnstileToken(null);
+      }
     }
   };
 
@@ -49,7 +135,7 @@ export default function LoginPage() {
           className="max-w-md w-full mx-auto lg:mx-0"
         >
           <div className="flex items-center gap-3 mb-10">
-            <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center shadow-xl shadow-slate-900/10">
+            <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center shadow-xl shadow-slate-900/10">
               <DollarSign className="text-white" size={28} />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Digitalsight Financials</h1>
@@ -67,7 +153,7 @@ export default function LoginPage() {
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-red-50 text-red-600 text-sm font-medium p-4 rounded-xl border border-red-100 flex items-center gap-3"
+                className="bg-red-50 text-red-600 text-sm font-medium p-4 rounded-none border border-red-100 flex items-center gap-3"
               >
                 <ShieldCheck size={18} className="shrink-0" />
                 <span>{error}</span>
@@ -84,7 +170,7 @@ export default function LoginPage() {
                   type="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
                   placeholder="Enter your email address"
                   required
                   disabled={isLoading}
@@ -102,7 +188,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-none focus:ring-2 focus:ring-slate-900 focus:border-transparent block w-full pl-12 p-4 transition-all outline-none placeholder:text-slate-400"
                   placeholder="••••••••"
                   required
                   disabled={isLoading}
@@ -112,16 +198,20 @@ export default function LoginPage() {
 
             <div className="flex items-center justify-between pt-2">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900" />
+                <input type="checkbox" className="w-4 h-4 rounded-none border-slate-300 text-slate-900 focus:ring-slate-900" />
                 <span className="text-sm font-medium text-slate-500 group-hover:text-slate-700 transition-colors">Remember me</span>
               </label>
               <button type="button" className="text-sm font-bold text-slate-900 hover:underline">Forgot Password?</button>
             </div>
 
+            <div className="flex justify-center py-2">
+              <div ref={turnstileRef}></div>
+            </div>
+
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full bg-slate-900 text-white font-bold text-base py-4 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+              disabled={isLoading || !turnstileToken}
+              className="w-full bg-slate-900 text-white font-bold text-base py-4 rounded-none hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed mt-4"
             >
               {isLoading ? (
                 <>
@@ -143,8 +233,8 @@ export default function LoginPage() {
       <div className="hidden lg:flex flex-1 bg-slate-950 relative items-center justify-center overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[70%] bg-indigo-500/20 rounded-full blur-[120px]"></div>
-          <div className="absolute -bottom-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-500/20 rounded-full blur-[120px]"></div>
+          <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[70%] bg-indigo-500/20 rounded-none blur-[120px]"></div>
+          <div className="absolute -bottom-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-500/20 rounded-none blur-[120px]"></div>
         </div>
 
         <div className="relative z-10 w-full max-w-2xl px-12">
@@ -176,9 +266,9 @@ export default function LoginPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 + (i * 0.1) }}
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 rounded-2xl hover:bg-white/10 transition-colors"
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 rounded-none hover:bg-white/10 transition-colors"
                 >
-                  <div className="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 mb-3">
+                  <div className="w-10 h-10 bg-indigo-500/20 rounded-none flex items-center justify-center text-indigo-400 mb-3">
                     <item.icon size={20} />
                   </div>
                   <h4 className="text-white font-bold text-sm mb-1">{item.label}</h4>
