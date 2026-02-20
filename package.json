@@ -42,5 +42,8 @@
     "typescript": "~5.8.2",
     "vite": "^6.4.1",
     "wrangler": "^4.67.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.57.1"
   }
 }
