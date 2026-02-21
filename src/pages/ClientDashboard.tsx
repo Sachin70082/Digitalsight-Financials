@@ -288,7 +288,7 @@ export default function ClientDashboard() {
         />
 
         <Area
-          type="linear"   // 🔥 changed from monotone
+          type="monotone"   // 🔥 changed from monotone
           dataKey="revenue"
           stroke="#1a73e8"
           strokeWidth={2}
