@@ -142,6 +142,12 @@ export default function ClientDashboard() {
           <div className="ga-search-bar">
             <div className="flex items-center px-1 gap-2">
               <Calendar size={14} className="text-[#5f6368]" aria-hidden="true" />
+                  <label
+        htmlFor="start-date"
+        className="text-[11px] font-semibold text-[#5f6368]"
+      >
+        From
+      </label>
               <input 
                 id="start-date"
                 type="date" 
@@ -152,6 +158,12 @@ export default function ClientDashboard() {
             </div>
             <div className="w-[1px] h-4 bg-[#dadce0] mx-2"></div>
             <div className="flex items-center px-1 gap-2">
+                  <label
+        htmlFor="start-date"
+        className="text-[11px] font-semibold text-[#5f6368]"
+      >
+        To
+      </label>
               <input 
                 id="end-date"
                 type="date" 

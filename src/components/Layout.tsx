@@ -81,7 +81,7 @@ export default function Layout() {
             </div>
             <div>
               <h1 className="text-lg font-medium text-[#202124] leading-none">Digitalsight</h1>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-[#70757a] mt-1 block">Financials</span>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-[#70757a] mt-1 block">Financials V1.0</span>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ export default function Layout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2 }}
-            className="p-8 lg:p-12 max-w-[1400px] mx-auto"
+            className="p-8 lg:p-12 w-full mx-auto"
           >
             <Outlet />
           </motion.div>

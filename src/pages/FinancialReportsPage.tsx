@@ -394,7 +394,7 @@ export default function FinancialReportsPage() {
                     <select 
                       value={selectedClient}
                       onChange={(e) => setSelectedClient(e.target.value)}
-                      className="modern-input pl-10 appearance-none"
+                      className="modern-input pl-10 pr-10 appearance-none"
                     >
                       <option value="">Select Label</option>
                       {labels.map(label => (
