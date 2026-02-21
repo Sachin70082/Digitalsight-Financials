@@ -706,30 +706,49 @@ app.get('/api/client/chart-data', async (c) => {
     const realData = results || [];
 
     if (view === 'yearly') {
-      // Generate last 12 months leading up to the LATEST report or NOW
+      // Generate last 4 quarters leading up to the LATEST report or NOW
       const now = new Date();
       const latestReportDate = realData.length > 0 ? new Date(realData[realData.length - 1].month + '-01') : now;
       const endDate = latestReportDate > now ? latestReportDate : now;
 
-      const last12Months = [];
-      for (let i = 11; i >= 0; i--) {
-        const d = new Date(endDate.getFullYear(), endDate.getMonth() - i, 1);
-        const monthKey = d.toISOString().slice(0, 7);
-        last12Months.push({
-          key: monthKey,
-          date: d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }),
+      const quarters = [];
+      let currentYear = endDate.getFullYear();
+      let currentQuarter = Math.floor(endDate.getMonth() / 3);
+
+      for (let i = 3; i >= 0; i--) {
+        let q = currentQuarter - i;
+        let y = currentYear;
+        while (q < 0) {
+          q += 4;
+          y -= 1;
+        }
+        
+        let qStr = '';
+        if (q === 0) qStr = `Q1 (Jan–Mar) ${y}`;
+        else if (q === 1) qStr = `Q2 (Apr–Jun) ${y}`;
+        else if (q === 2) qStr = `Q3 (Jul–Sep) ${y}`;
+        else if (q === 3) qStr = `Q4 (Oct–Dec) ${y}`;
+
+        quarters.push({
+          quarterIndex: q,
+          year: y,
+          date: qStr,
           revenue: 0
         });
       }
 
-      const merged = last12Months.map(m => {
-        const real = realData.find((r: any) => r.month === m.key);
-        return {
-          date: m.date,
-          revenue: real ? real.revenue : 0
-        };
+      realData.forEach((r: any) => {
+        const d = new Date(r.month + '-01');
+        const y = d.getFullYear();
+        const q = Math.floor(d.getMonth() / 3);
+        
+        const targetQuarter = quarters.find(qt => qt.year === y && qt.quarterIndex === q);
+        if (targetQuarter) {
+          targetQuarter.revenue += r.revenue;
+        }
       });
-      return c.json(merged);
+
+      return c.json(quarters.map(q => ({ date: q.date, revenue: q.revenue })));
     } else {
       // Monthly view: Show past 3 months leading up to the LATEST report or NOW
       const now = new Date();

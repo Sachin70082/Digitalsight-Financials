@@ -17,7 +17,7 @@ export default function ClientDashboard() {
   const [stats, setStats] = useState<any>(null);
   const [allRoyalties, setAllRoyalties] = useState<any[]>([]);
   const [chartData, setChartData] = useState<any[]>([]);
-  const [viewType, setViewType] = useState<'monthly' | 'yearly'>('monthly');
+  const [viewType, setViewType] = useState<'monthly' | 'yearly'>('yearly');
   
   // Hover State for Chart
   const [hoveredData, setHoveredData] = useState<any>(null);
@@ -208,7 +208,7 @@ export default function ClientDashboard() {
         <section className="lg:col-span-2 bg-white p-8 rounded-lg border border-[#dadce0]" aria-label="Revenue Chart">
           <header className="flex items-center justify-between mb-10">
             <div>
-              <h2 className="text-xs text-[#70757a] font-medium uppercase tracking-wider mb-1">Revenue Overview</h2>
+              <h2 className="text-xs text-[#70757a] font-medium uppercase tracking-wider mb-1">Recent Month Revenue Overview</h2>
               <p className="text-3xl font-medium text-[#202124] tracking-tight">
                 {formatCurrency(currentRevenueValue, user?.currency)}
               </p>
@@ -229,66 +229,95 @@ export default function ClientDashboard() {
             </div>
           </header>
           
-          <div className="h-[320px] w-full">
-            {chartData.length > 0 && chartData.some(d => d.revenue > 0) ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart 
-                  data={chartData} 
-                  margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-                  onMouseMove={(e: any) => {
-                    if (e && e.activePayload) {
-                      setHoveredData(e.activePayload[0].payload);
-                    }
-                  }}
-                  onMouseLeave={() => setHoveredData(null)}
-                >
-                  <defs>
-                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#1771e7" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#1a73e8" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f3f4" />
-                  <XAxis 
-                    dataKey="date" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{fill: '#70757a', fontSize: 10}} 
-                    dy={10} 
-                    interval="preserveStartEnd"
-                  />
-                  <YAxis hide={true} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      borderRadius: '8px', 
-                      border: '1px solid #dadce0', 
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                      padding: '12px',
-                      backgroundColor: '#fff',
-                      color: '#3c4043'
-                    }}
-                    itemStyle={{ fontWeight: 500, color: '#1a73e8', fontSize: '13px' }}
-                    labelStyle={{ fontWeight: 500, color: '#70757a', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase' }}
-                    formatter={(value: any) => [formatCurrency(value, user?.currency), 'Revenue']}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="revenue" 
-                    stroke="#1a73e8" 
-                    strokeWidth={2} 
-                    fillOpacity={1} 
-                    fill="url(#colorRevenue)" 
-                    animationDuration={500}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center text-[#dadce0] gap-4">
-                <PieChart size={32} className="opacity-20" />
-                <p className="text-xs font-medium uppercase tracking-widest">No revenue data available</p>
-              </div>
-            )}
-          </div>
+         <div className="h-[320px] w-full">
+  {chartData.length > 0 && chartData.some(d => d.revenue > 0) ? (
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart
+        data={chartData}
+        margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+        onMouseMove={(e: any) => {
+          if (e && e.activePayload) {
+            setHoveredData(e.activePayload[0].payload);
+          }
+        }}
+        onMouseLeave={() => setHoveredData(null)}
+      >
+        <defs>
+          <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#1771e7" stopOpacity={0.25} />
+            <stop offset="95%" stopColor="#1a73e8" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+
+        <CartesianGrid
+          strokeDasharray="3 3"
+          vertical={false}
+          stroke="#f1f3f4"
+        />
+
+        <XAxis
+          dataKey="date"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: "#70757a", fontSize: 11 }}
+          dy={10}
+          interval="preserveStartEnd"
+          minTickGap={15}
+        />
+
+        <YAxis hide />
+
+        <Tooltip
+          contentStyle={{
+            borderRadius: "10px",
+            border: "1px solid #e5e7eb",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+            padding: "10px 14px",
+            backgroundColor: "#fff",
+          }}
+          labelStyle={{
+            fontWeight: 600,
+            fontSize: "11px",
+            color: "#6b7280",
+            textTransform: "uppercase",
+          }}
+          formatter={(value: any, _name, props) => [
+            formatCurrency(value, user?.currency),
+            "Revenue",
+          ]}
+        />
+
+        <Area
+          type="linear"   // 🔥 changed from monotone
+          dataKey="revenue"
+          stroke="#1a73e8"
+          strokeWidth={2}
+          fill="url(#colorRevenue)"
+          dot={{
+            r: 4,
+            strokeWidth: 2,
+            fill: "#ffffff",
+            stroke: "#1a73e8",
+          }}
+          activeDot={{
+            r: 6,
+            stroke: "#1a73e8",
+            strokeWidth: 2,
+            fill: "#ffffff",
+          }}
+          animationDuration={500}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  ) : (
+    <div className="h-full flex flex-col items-center justify-center text-[#dadce0] gap-4">
+      <PieChart size={32} className="opacity-20" />
+      <p className="text-xs font-medium uppercase tracking-widest">
+        No revenue data available
+      </p>
+    </div>
+  )}
+</div>
         </section>
 
         {/* Side Analytics - Flat */}
